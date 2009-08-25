@@ -53,7 +53,7 @@ public class Filters
             for (int ii = 0; ii < pieces.length; ii++) {
                 pieces[ii] = filters[ii].makeFilter();
             }
-            return Analytics.join(pieces, joiner);
+            return QueryBuilder.join(pieces, joiner);
         }
 
         public Set<? extends Source> getSources ()
