@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<!-- declares the libraries needed to build honeybird -->
+<project name="library-dependencies">
+  <fileset dir="${libs.dir}" id="honeybird.libs">
+      <include name="gdata-analytics.jar"/>
+      <include name="gdata-core.jar"/>
+      <include name="junit4.jar"/>
+  </fileset>
+</project>
