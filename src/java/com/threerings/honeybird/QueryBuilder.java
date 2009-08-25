@@ -18,22 +18,66 @@
 */
 package com.threerings.honeybird;
 
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.google.gdata.client.analytics.AnalyticsService;
 import com.google.gdata.client.analytics.DataQuery;
 import com.google.gdata.data.analytics.DataFeed;
 
 public class QueryBuilder
 {
-    public QueryBuilder (Analytics analytics, DataQuery query)
+    /**
+     * Creates a QueryBuilder for the current day.
+     *
+     * @param profileId -Google Analytics profile ID, prefixed by 'ga:'
+     * @param service - An AnalyticsService configured with permission to access the given profile
+     */
+    public QueryBuilder (String profileId, AnalyticsService service)
     {
-        _analytics = analytics;
-        _query = query;
+        this(profileId, service, new Date());
+    }
+
+    /**
+     * Creates a QueryBuilder for the given day.
+     *
+     * @param profileId -Google Analytics profile ID, prefixed by 'ga:'
+     * @param service - An AnalyticsService configured with permission to access the given profile
+     */
+    public QueryBuilder (String profileId, AnalyticsService service, Date onDay)
+    {
+        this(profileId, service, onDay, onDay);
+    }
+
+    /**
+     * Creates a QueryBuilder from <code>fromDay<code> to <code>toDay</code>, inclusive on both
+     * ends.
+     *
+     * @param profileId -Google Analytics profile ID, prefixed by 'ga:'
+     * @param service - An AnalyticsService configured with permission to access the given profile
+     */
+    public QueryBuilder (String profileId, AnalyticsService service, Date fromDay,
+            Date toDay)
+    {
+        _service = service;
+        try {
+            _query = new DataQuery(new URL("https://www.google.com/analytics/feeds/data"));
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        _query.setIds(profileId);
+        DateFormat queryDayFormat = new SimpleDateFormat("yyyy-MM-dd");
+        _query.setStartDate(queryDayFormat.format(fromDay));
+        _query.setEndDate(queryDayFormat.format(toDay));
     }
 
     /**
@@ -63,11 +107,32 @@ public class QueryBuilder
         return this;
     }
 
-    protected String constructQueryString (Collection<String> pieces)
-    {
-        return Analytics.join(pieces.toArray(new String[pieces.size()]), ",");
+    /**
+     * Returns the URI for the query as it currently stands.
+     */
+    public URI getQueryURI() {
+        fillInQuery();
+        return _query.getQueryUri();
     }
 
+    /**
+     * Returns the results for the query as it currently stands.
+     */
+    public DataFeed query ()
+    {
+        fillInQuery();
+
+        try {
+            return _service.getFeed(_query, DataFeed.class);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    protected String constructQueryString (Collection<String> pieces)
+    {
+        return join(pieces.toArray(new String[pieces.size()]), ",");
+    }
 
     protected void fillInQuery ()
     {
@@ -87,25 +152,17 @@ public class QueryBuilder
         _query.setDimensions(constructQueryString(dimensions));
     }
 
-    /**
-     * Returns the URI for the query as it currently stands.
-     */
-    public URI getQueryURI() {
-        fillInQuery();
-        return _query.getQueryUri();
-    }
-
-    /**
-     * Returns the results for the query as it currently stands.
-     */
-    public DataFeed query ()
+    protected static String join (String[] values, String separator)
     {
-        _analytics.waitForQuota();
-        fillInQuery();
-
-//        log.info("Running query", "dimensions", _query.getDimensions(), "metrics",
-//            _query.getMetrics(), "filters", _query.getFilters(), "day", _query.getStartDate());
-        return _analytics.getFeed(_query);
+        if (values.length == 0) {
+            return "";
+        }
+        StringBuilder buf = new StringBuilder();
+        for (String val : values) {
+            buf.append(val).append(separator);
+        }
+        buf.setLength(buf.length() - separator.length());
+        return buf.toString();
     }
 
     protected Filter _filter;
@@ -114,5 +171,5 @@ public class QueryBuilder
 
     protected final Set<Source> _sources = new HashSet<Source>();
 
-    protected final Analytics _analytics;
+    protected final AnalyticsService _service;
 }
