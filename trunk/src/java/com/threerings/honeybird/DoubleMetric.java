@@ -1,6 +1,6 @@
 /*
    honeybird - Fluent queries for Google Analytics
-   src/java/com/threerings/honeybird/VisitorType.java
+   src/java/com/threerings/honeybird/DoubleMetric.java
 
    Copyright 2009 Three Rings Design, Inc.
 
@@ -18,18 +18,24 @@
 */
 package com.threerings.honeybird;
 
-public enum VisitorType {
-    NEW("New Visitor"), RETURNING("ReturningVisitor");
+import com.google.gdata.data.analytics.DataEntry;
 
-    VisitorType (String value)
+public class DoubleMetric extends Metric<Double>
+{
+    protected DoubleMetric (String name)
     {
-        this.value = value;
+        super(name);
     }
 
-    public final String value;
-
-    public static VisitorType get (String analyticsValue)
+    @Override
+    public Double extractValue (com.google.gdata.data.analytics.Metric aggMetric)
     {
-        return analyticsValue.equals(NEW.value) ? NEW : RETURNING;
+        return aggMetric.doubleValue();
     }
+
+    public Double extractValue (DataEntry entry)
+    {
+        return entry.doubleValueOf(getName());
+    }
+
 }

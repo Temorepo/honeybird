@@ -1,7 +1,7 @@
 import sys, textwrap
 
 from sources import sources
-from source_types import types 
+from metric_types import types as metric_types
 from string import uppercase
 
 def asConstant(sourceName):
@@ -32,28 +32,23 @@ public interface %(class)s
 {
 '''
 
-custom_sources = {"ga:visitorType": "VisitorType"}
-def generate_group(group, sources, out):
-    out.write(header % {"class": group + "s"})
-    grouptypes = types[group]
+custom_sources = {"ga:visitorType": "VisitorTypeDimension"}
+def generate_metrics(out):
+    out.write(header % {"class": "Metrics"})
     wrapper = textwrap.TextWrapper(width=100, initial_indent='     * ', subsequent_indent='     * ',
             break_long_words=False)
-    for source, descr in sources:
+    for metric, descr in sources["Metric"]:
         descr = wrapper.fill(descr)
-        type = grouptypes[source]
-        if type == 's':
-            generic = "String"
-        elif type == 'i':
-            generic = "Integer"
-        else:
-            generic = "Void"
-        constant = asConstant(source)
-        if source in custom_sources:
-            javatype = custom_sources[source]
+        constant = asConstant(metric)
+        if metric in custom_sources:
+            javatype = custom_sources[metric]
             args = ""
         else:
-            javatype = "%(group)s<%(generic)s>" % locals()
-            args = '"%s"' % source
+            if metric_types[metric] == "l":
+                javatype = "LongMetric"
+            else:
+                javatype = "DoubleMetric"
+            args = '"%s"' % metric
         out.write('''    /**
 %(descr)s
      */
@@ -62,6 +57,26 @@ def generate_group(group, sources, out):
 ''' % locals())
     out.write("}\n")
 
-for group, sources in sources.items():
-    generate_group(group, sources,
-            open("../src/java/com/threerings/honeybird/%ss.java" % group, 'w'))
+def generate_dimensions(out):
+    out.write(header % {"class": "Dimensions"})
+    wrapper = textwrap.TextWrapper(width=100, initial_indent='     * ', subsequent_indent='     * ',
+            break_long_words=False)
+    for source, descr in sources["Dimension"]:
+        descr = wrapper.fill(descr)
+        constant = asConstant(source)
+        if source in custom_sources:
+            javatype = custom_sources[source]
+            args = ""
+        else:
+            javatype = "Dimension"
+            args = '"%s"' % source
+        out.write('''    /**
+    %(descr)s
+     */
+    public static final %(javatype)s %(constant)s = new %(javatype)s(%(args)s);
+
+    ''' % locals())
+    out.write("}\n")
+
+generate_metrics(open("../src/java/com/threerings/honeybird/Metrics.java", 'w'))
+generate_dimensions(open("../src/java/com/threerings/honeybird/Dimensions.java", 'w'))

@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 
+
 public class Filters
 {
     static Filter AND (final Filter... filters)
@@ -56,9 +57,9 @@ public class Filters
             return QueryBuilder.join(pieces, joiner);
         }
 
-        public Set<Source> getSources ()
+        public Set<Source<?>> getSources ()
         {
-            Set<Source> sources = new HashSet<Source>();
+            Set<Source<?>> sources = new HashSet<Source<?>>();
             for (Filter filter : filters) {
                 sources.addAll(filter.getSources());
             }

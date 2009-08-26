@@ -18,7 +18,11 @@
 */
 package com.threerings.honeybird;
 
-public interface Source
+import com.google.gdata.data.analytics.DataEntry;
+
+public interface Source<V>
 {
     String getName();
+
+    V extractValue(DataEntry entry);
 }
