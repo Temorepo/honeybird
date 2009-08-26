@@ -18,29 +18,29 @@
 */
 package com.threerings.honeybird;
 
-public class Dimension extends Source
+public class Dimension<T> extends Source<T>
 {
     protected Dimension (String name)
     {
         super(name);
     }
 
-    public Filter matches (String value)
+    public Filter matches (T value)
     {
         return expr("=~", value);
     }
 
-    public Filter nmatches (String value)
+    public Filter nmatches (T value)
     {
         return expr("!~", value);
     }
 
-    public Filter contains (String value)
+    public Filter contains (T value)
     {
         return expr("=@", value);
     }
 
-    public Filter ncontains (String value)
+    public Filter ncontains (T value)
     {
         return expr("!@", value);
     }

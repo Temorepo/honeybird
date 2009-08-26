@@ -56,9 +56,9 @@ public class Filters
             return QueryBuilder.join(pieces, joiner);
         }
 
-        public Set<? extends Source> getSources ()
+        public Set<? extends Source<?>> getSources ()
         {
-            Set<Source> sources = new HashSet<Source>();
+            Set<Source<?>> sources = new HashSet<Source<?>>();
             for (Filter filter : filters) {
                 sources.addAll(filter.getSources());
             }
