@@ -18,7 +18,7 @@
 */
 package com.threerings.honeybird;
 
-public class Dimension<T> extends Source<T>
+public class Dimension<T> extends FilterSource<T>
 {
     protected Dimension (String name)
     {

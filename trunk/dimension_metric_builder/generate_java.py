@@ -32,6 +32,7 @@ public interface %(class)s
 {
 '''
 
+custom_sources = {"ga:visitorType": "VisitorType"}
 def generate_group(group, sources, out):
     out.write(header % {"class": group + "s"})
     grouptypes = types[group]
@@ -47,10 +48,16 @@ def generate_group(group, sources, out):
         else:
             generic = "Void"
         constant = asConstant(source)
+        if source in custom_sources:
+            javatype = custom_sources[source]
+            args = ""
+        else:
+            javatype = "%(group)s<%(generic)s>" % locals()
+            args = '"%s"' % source
         out.write('''    /**
 %(descr)s
      */
-    public static final %(group)s<%(generic)s> %(constant)s = new %(group)s<%(generic)s>("%(source)s");
+    public static final %(javatype)s %(constant)s = new %(javatype)s(%(args)s);
 
 ''' % locals())
     out.write("}\n")

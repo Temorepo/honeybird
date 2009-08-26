@@ -18,7 +18,7 @@
 */
 package com.threerings.honeybird;
 
-public class Metric<T> extends Source<T>
+public class Metric<T> extends FilterSource<T>
 {
     protected Metric (String name)
     {

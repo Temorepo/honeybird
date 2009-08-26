@@ -197,7 +197,7 @@ public interface Dimensions
      * A boolean indicating if visitors are new or returning. Possible values: <code>New
      * Visitor</code>, <code>Returning Visitor</code>.
      */
-    public static final Dimension<Void> VISITOR_TYPE = new Dimension<Void>("ga:visitorType");
+    public static final VisitorType VISITOR_TYPE = new VisitorType();
 
     /**
      * The week of the visit. A two-digit number from 01 to 52.

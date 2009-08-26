@@ -18,45 +18,7 @@
 */
 package com.threerings.honeybird;
 
-public class Source<T>
+public interface Source
 {
-    protected Source (String name)
-    {
-        _name = name;
-    }
-
-    public Filter eq (T value)
-    {
-        return expr("==", value);
-    }
-
-    public Filter neq (T value)
-    {
-        return expr("!=", value);
-    }
-
-    protected FilterExpression expr (String op, T value)
-    {
-        return new FilterExpression(this, op, value.toString());
-    }
-
-    @Override
-    public boolean equals (Object other)
-    {
-        if (other == this) {
-            return true;
-        }
-        if (other instanceof Source) {
-            return ((Source<?>)other)._name.equals(_name);
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode ()
-    {
-        return _name.hashCode();
-    }
-
-    protected final String _name;
+    String getName();
 }

@@ -24,11 +24,11 @@ import java.util.Set;
 class FilterExpression
     implements Filter
 {
-    protected final Source<?> toFilter;
+    protected final Source toFilter;
 
     protected final String operator, restriction;
 
-    public FilterExpression (Source<?> toFilter, String operator, String restriction)
+    public FilterExpression (Source toFilter, String operator, String restriction)
     {
         this.toFilter = toFilter;
         this.operator = operator;
@@ -37,12 +37,12 @@ class FilterExpression
 
     public String makeFilter ()
     {
-        return toFilter._name + operator + restriction;
+        return toFilter.getName() + operator + restriction;
     }
 
-    public Set<? extends Source<?>> getSources ()
+    public Set<Source> getSources ()
     {
-        Set<Source<?>> sources = new HashSet<Source<?>>();
+        Set<Source> sources = new HashSet<Source>();
         sources.add(toFilter);
         return sources;
     }
