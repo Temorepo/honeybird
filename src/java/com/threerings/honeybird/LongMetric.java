@@ -1,6 +1,6 @@
 /*
    honeybird - Fluent queries for Google Analytics
-   src/java/com/threerings/honeybird/Dimension.java
+   src/java/com/threerings/honeybird/LongMetric.java
 
    Copyright 2009 Three Rings Design, Inc.
 
@@ -20,35 +20,51 @@ package com.threerings.honeybird;
 
 import com.google.gdata.data.analytics.DataEntry;
 
-public class Dimension extends FilterSource<String>
+public class LongMetric extends Metric<Long>
 {
-    public Dimension (String name)
+    public LongMetric (String name)
     {
         super(name);
     }
 
-    public Filter matches (String value)
+    public Filter gt (int value)
     {
-        return expr("=~", value);
+        return gt((long)value);
     }
 
-    public Filter nmatches (String value)
+    public Filter lt (int value)
     {
-        return expr("!~", value);
+        return lt((long)value);
     }
 
-    public Filter contains (String value)
+    public Filter gte (int value)
     {
-        return expr("=@", value);
+        return gte((long)value);
     }
 
-    public Filter ncontains (String value)
+    public Filter lte (int value)
     {
-        return expr("!@", value);
+        return lte((long)value);
     }
 
-    public String extractValue (DataEntry entry)
+    public Filter eq (int value)
     {
-        return entry.stringValueOf(getName());
+        return eq((long)value);
+    }
+
+    public Filter neq (int value)
+    {
+        return neq((long)value);
+    }
+
+    @Override
+    public Long extractValue (com.google.gdata.data.analytics.Metric aggMetric)
+    {
+        return aggMetric.longValue();
+    }
+
+    public Long extractValue (DataEntry entry)
+    {
+        return entry.longValueOf(getName());
     }
 }

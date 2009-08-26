@@ -23,7 +23,7 @@ public interface Metrics
     /**
      * The total number of single-page visits to your site.
      */
-    public static final Metric<Integer> BOUNCES = new Metric<Integer>("ga:bounces");
+    public static final LongMetric BOUNCES = new LongMetric("ga:bounces");
 
     /**
      * The number of entrances to your site.  The value will always be equal to the number of visits
@@ -31,7 +31,7 @@ public interface Metrics
      * with dimensions such as <code>ga:landingPagePath</code>, at which point entrances as a metric
      * indicates the number of times a particular page served as an entrance to your site.
      */
-    public static final Metric<Integer> ENTRANCES = new Metric<Integer>("ga:entrances");
+    public static final LongMetric ENTRANCES = new LongMetric("ga:entrances");
 
     /**
      * The number of exits from your site. As with entrances, it will always be equal to the number
@@ -39,26 +39,26 @@ public interface Metrics
      * content dimensions such as <code>ga:exitPagePath</code> in order to determine the number of
      * times  a particular page was the last one viewed by visitors.
      */
-    public static final Metric<Integer> EXITS = new Metric<Integer>("ga:exits");
+    public static final LongMetric EXITS = new LongMetric("ga:exits");
 
     /**
      * The number of visitors whose visit to your site was marked as a first-time visit.
      */
-    public static final Metric<Integer> NEW_VISITS = new Metric<Integer>("ga:newVisits");
+    public static final LongMetric NEW_VISITS = new LongMetric("ga:newVisits");
 
     /**
      * The total  number of pageviews for your site when aggregated over the selected dimension.
      * For example, if you select this metric together with <code>ga:pagePath</code>, it will return
      * the number of page views for each  URI.
      */
-    public static final Metric<Integer> PAGEVIEWS = new Metric<Integer>("ga:pageviews");
+    public static final LongMetric PAGEVIEWS = new LongMetric("ga:pageviews");
 
     /**
      * How long a visitor spent on a particular page or set of pages.  Calculated by subtracting the
      * initial view time for a particular page from the initial view time for a subsequent page.
      * Thus, this metric does not apply to exit pages for your site.
      */
-    public static final Metric<Integer> TIME_ON_PAGE = new Metric<Integer>("ga:timeOnPage");
+    public static final LongMetric TIME_ON_PAGE = new LongMetric("ga:timeOnPage");
 
     /**
      * The total duration of visitor sessions over the selected dimension.  For example, suppose you
@@ -69,14 +69,14 @@ public interface Metrics
      * give you a side-by-side comparison and a means to calculate the boost in visit duration
      * provided by a particular campaign.
      */
-    public static final Metric<Integer> TIME_ON_SITE = new Metric<Integer>("ga:timeOnSite");
+    public static final LongMetric TIME_ON_SITE = new LongMetric("ga:timeOnSite");
 
     /**
      * Total number of visitors to your site for the requested time period. When requesting this
      * metric, you can only combine it with time dimensions such as <code>ga:hour</code> or
      * <code>ga:year</code>.
      */
-    public static final Metric<Integer> VISITORS = new Metric<Integer>("ga:visitors");
+    public static final LongMetric VISITORS = new LongMetric("ga:visitors");
 
     /**
      * The total number of visits over the selected dimension. A visit consists of a single-user
@@ -86,58 +86,58 @@ public interface Metrics
      * href="/apis/analytics/docs/tracking/gaTrackingVisitors.html#userSession">Adjusting the User
      * Session</a> for more information.
      */
-    public static final Metric<Integer> VISITS = new Metric<Integer>("ga:visits");
+    public static final LongMetric VISITS = new LongMetric("ga:visits");
 
     /**
      * The total number of times users have clicked on an ad to reach your site.
      */
-    public static final Metric<Integer> AD_CLICKS = new Metric<Integer>("ga:adClicks");
+    public static final LongMetric AD_CLICKS = new LongMetric("ga:adClicks");
 
     /**
      * Derived cost for the advertising campaign. The currency for this value is based on the
      * currency that you set in your AdWords account.
      */
-    public static final Metric<Void> AD_COST = new Metric<Void>("ga:adCost");
+    public static final DoubleMetric AD_COST = new DoubleMetric("ga:adCost");
 
     /**
      * Cost to advertiser per click.
      */
-    public static final Metric<Void> _C_P_C = new Metric<Void>("ga:CPC");
+    public static final DoubleMetric _C_P_C = new DoubleMetric("ga:CPC");
 
     /**
      * Cost per thousand impressions.
      */
-    public static final Metric<Void> _C_P_M = new Metric<Void>("ga:CPM");
+    public static final DoubleMetric _C_P_M = new DoubleMetric("ga:CPM");
 
     /**
      * Click-through-rate for your ad. This is equal to the number of clicks divided by the number
      * of impressions for your ad (e.g. how many times users clicked on one of your ads where that
      * ad appeared).
      */
-    public static final Metric<Void> _C_T_R = new Metric<Void>("ga:CTR");
+    public static final DoubleMetric _C_T_R = new DoubleMetric("ga:CTR");
 
     /**
      * Total number of campaign impressions.
      */
-    public static final Metric<Integer> IMPRESSIONS = new Metric<Integer>("ga:impressions");
+    public static final LongMetric IMPRESSIONS = new LongMetric("ga:impressions");
 
     /**
      * The number of different (unique) pages within a visit,  summed up across all visits
      */
-    public static final Metric<Integer> UNIQUE_PAGEVIEWS = new Metric<Integer>("ga:uniquePageviews");
+    public static final LongMetric UNIQUE_PAGEVIEWS = new LongMetric("ga:uniquePageviews");
 
     /**
      * Total revenue from purchased product items on your site. See the tracking API reference for
      * <a href="/apis/analytics/docs/gaJS/gaJSApiEcommerce.html"><code>_addItem()</code></a> for
      * additional information.
      */
-    public static final Metric<Void> ITEM_REVENUE = new Metric<Void>("ga:itemRevenue");
+    public static final DoubleMetric ITEM_REVENUE = new DoubleMetric("ga:itemRevenue");
 
     /**
      * The total number of items purchased.  For example, if  users purchase 2 frisbees and 5 tennis
      * balls, 7 items have been purchased.
      */
-    public static final Metric<Integer> ITEM_QUANTITY = new Metric<Integer>("ga:itemQuantity");
+    public static final LongMetric ITEM_QUANTITY = new LongMetric("ga:itemQuantity");
 
     /**
      * The total sale revenue, including shipping and tax, if provided in the transation. See the
@@ -145,138 +145,138 @@ public interface Metrics
      * href="/apis/analytics/docs/gaJS/gaJSApiEcommerce.html#_gat.GA_Tracker_._addTrans"><code>_addTrans()</code></a>
      * in the tracking API reference for additional information.
      */
-    public static final Metric<Void> TRANSACTION_REVENUE = new Metric<Void>("ga:transactionRevenue");
+    public static final DoubleMetric TRANSACTION_REVENUE = new DoubleMetric("ga:transactionRevenue");
 
     /**
      * The total number of transactions.
      */
-    public static final Metric<Integer> TRANSACTIONS = new Metric<Integer>("ga:transactions");
+    public static final LongMetric TRANSACTIONS = new LongMetric("ga:transactions");
 
     /**
      * The total cost of shipping.
      */
-    public static final Metric<Void> TRANSACTION_SHIPPING = new Metric<Void>("ga:transactionShipping");
+    public static final LongMetric TRANSACTION_SHIPPING = new LongMetric("ga:transactionShipping");
 
     /**
      * The total amount of tax.
      */
-    public static final Metric<Void> TRANSACTION_TAX = new Metric<Void>("ga:transactionTax");
+    public static final DoubleMetric TRANSACTION_TAX = new DoubleMetric("ga:transactionTax");
 
     /**
      * The number of product sets purchased.  For example, if  users purchase 2 frisbees and 5
      * tennis balls from your site,  2 product sets have been purchased.
      */
-    public static final Metric<Integer> UNIQUE_PURCHASES = new Metric<Integer>("ga:uniquePurchases");
+    public static final LongMetric UNIQUE_PURCHASES = new LongMetric("ga:uniquePurchases");
 
     /**
      * The average number of subsequent page views made on your site after a use of your internal
      * search feature.
      */
-    public static final Metric<Integer> SEARCH_DEPTH = new Metric<Integer>("ga:searchDepth");
+    public static final LongMetric SEARCH_DEPTH = new LongMetric("ga:searchDepth");
 
     /**
      * The visit duration to your site where a use of your internal search feature occurred.
      */
-    public static final Metric<Integer> SEARCH_DURATION = new Metric<Integer>("ga:searchDuration");
+    public static final LongMetric SEARCH_DURATION = new LongMetric("ga:searchDuration");
 
     /**
      * The number of exits on your site that occurred following a search result from your internal
      * search feature.
      */
-    public static final Metric<Integer> SEARCH_EXITS = new Metric<Integer>("ga:searchExits");
+    public static final LongMetric SEARCH_EXITS = new LongMetric("ga:searchExits");
 
     /**
      * The number of refinements made on an internal search.
      */
-    public static final Metric<Integer> SEARCH_REFINEMENTS = new Metric<Integer>("ga:searchRefinements");
+    public static final LongMetric SEARCH_REFINEMENTS = new LongMetric("ga:searchRefinements");
 
     /**
      * The number of unique visitors to your site who used your internal search feature.
      */
-    public static final Metric<Integer> SEARCH_UNIQUES = new Metric<Integer>("ga:searchUniques");
+    public static final LongMetric SEARCH_UNIQUES = new LongMetric("ga:searchUniques");
 
     /**
      * The total number of visits to your site where a use of your internal search feature occurred.
      */
-    public static final Metric<Integer> SEARCH_VISITS = new Metric<Integer>("ga:searchVisits");
+    public static final LongMetric SEARCH_VISITS = new LongMetric("ga:searchVisits");
 
     /**
      * The total number of completions for the specific goal. You can request completions for
      * individual goals by number (e.g. <code>ga:goal1Completions</code>).
      */
-    public static final Metric<Integer> GOAL1_COMPLETIONS = new Metric<Integer>("ga:goal1Completions");
+    public static final LongMetric GOAL1_COMPLETIONS = new LongMetric("ga:goal1Completions");
 
     /**
      * The total number of completions for the specific goal. You can request completions for
      * individual goals by number (e.g. <code>ga:goal1Completions</code>).
      */
-    public static final Metric<Integer> GOAL2_COMPLETIONS = new Metric<Integer>("ga:goal2Completions");
+    public static final LongMetric GOAL2_COMPLETIONS = new LongMetric("ga:goal2Completions");
 
     /**
      * The total number of completions for the specific goal. You can request completions for
      * individual goals by number (e.g. <code>ga:goal1Completions</code>).
      */
-    public static final Metric<Integer> GOAL3_COMPLETIONS = new Metric<Integer>("ga:goal3Completions");
+    public static final LongMetric GOAL3_COMPLETIONS = new LongMetric("ga:goal3Completions");
 
     /**
      * The total number of completions for the specific goal. You can request completions for
      * individual goals by number (e.g. <code>ga:goal1Completions</code>).
      */
-    public static final Metric<Integer> GOAL4_COMPLETIONS = new Metric<Integer>("ga:goal4Completions");
+    public static final LongMetric GOAL4_COMPLETIONS = new LongMetric("ga:goal4Completions");
 
     /**
      * The total number of completions for all goals defined for your profile.
      */
-    public static final Metric<Integer> GOAL_COMPLETIONS_ALL = new Metric<Integer>("ga:goalCompletionsAll");
+    public static final LongMetric GOAL_COMPLETIONS_ALL = new LongMetric("ga:goalCompletionsAll");
 
     /**
      * The total number of starts for the requested goal number.
      */
-    public static final Metric<Integer> GOAL1_STARTS = new Metric<Integer>("ga:goal1Starts");
+    public static final LongMetric GOAL1_STARTS = new LongMetric("ga:goal1Starts");
 
     /**
      * The total number of starts for the requested goal number.
      */
-    public static final Metric<Integer> GOAL2_STARTS = new Metric<Integer>("ga:goal2Starts");
+    public static final LongMetric GOAL2_STARTS = new LongMetric("ga:goal2Starts");
 
     /**
      * The total number of starts for the requested goal number.
      */
-    public static final Metric<Integer> GOAL3_STARTS = new Metric<Integer>("ga:goal3Starts");
+    public static final LongMetric GOAL3_STARTS = new LongMetric("ga:goal3Starts");
 
     /**
      * The total number of starts for the requested goal number.
      */
-    public static final Metric<Integer> GOAL4_STARTS = new Metric<Integer>("ga:goal4Starts");
+    public static final LongMetric GOAL4_STARTS = new LongMetric("ga:goal4Starts");
 
     /**
      * The total number of starts for all goals defined for your profile.
      */
-    public static final Metric<Integer> GOAL_STARTS_ALL = new Metric<Integer>("ga:goalStartsAll");
+    public static final LongMetric GOAL_STARTS_ALL = new LongMetric("ga:goalStartsAll");
 
     /**
      * The total numeric value for the requested goal.
      */
-    public static final Metric<Integer> GOAL1_VALUE = new Metric<Integer>("ga:goal1Value");
+    public static final LongMetric GOAL1_VALUE = new LongMetric("ga:goal1Value");
 
     /**
      * The total numeric value for the requested goal.
      */
-    public static final Metric<Integer> GOAL2_VALUE = new Metric<Integer>("ga:goal2Value");
+    public static final LongMetric GOAL2_VALUE = new LongMetric("ga:goal2Value");
 
     /**
      * The total numeric value for the requested goal.
      */
-    public static final Metric<Integer> GOAL3_VALUE = new Metric<Integer>("ga:goal3Value");
+    public static final LongMetric GOAL3_VALUE = new LongMetric("ga:goal3Value");
 
     /**
      * The total numeric value for the requested goal.
      */
-    public static final Metric<Integer> GOAL4_VALUE = new Metric<Integer>("ga:goal4Value");
+    public static final LongMetric GOAL4_VALUE = new LongMetric("ga:goal4Value");
 
     /**
      * The total value for all goals defined for your profile.
      */
-    public static final Metric<Integer> GOAL_VALUE_ALL = new Metric<Integer>("ga:goalValueAll");
+    public static final LongMetric GOAL_VALUE_ALL = new LongMetric("ga:goalValueAll");
 
 }

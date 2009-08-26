@@ -18,7 +18,7 @@
 */
 package com.threerings.honeybird;
 
-public class Metric<T> extends FilterSource<T>
+public abstract class Metric<T> extends FilterSource<T>
 {
     protected Metric (String name)
     {
@@ -44,4 +44,6 @@ public class Metric<T> extends FilterSource<T>
     {
         return expr("<=", value);
     }
+
+    public abstract T extractValue (com.google.gdata.data.analytics.Metric aggMetric);
 }

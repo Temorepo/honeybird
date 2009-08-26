@@ -24,7 +24,7 @@ public interface Filter
 {
     String makeFilter ();
 
-    Set<Source> getSources ();
+    Set<Source<?>> getSources ();
 
     Filter and(Filter additional);
 

@@ -34,6 +34,7 @@ import com.google.gdata.client.analytics.AnalyticsService;
 import com.google.gdata.client.analytics.DataQuery;
 import com.google.gdata.data.analytics.DataFeed;
 
+
 public class QueryBuilder
 {
     /**
@@ -83,9 +84,9 @@ public class QueryBuilder
     /**
      * Adds the given Dimensions or Metrics to the results from this query.
      */
-    public QueryBuilder add (Source... sources)
+    public QueryBuilder add (Source<?>... sources)
     {
-        for (Source source : sources) {
+        for (Source<?> source : sources) {
             _sources.add(source);
         }
         return this;
@@ -118,12 +119,12 @@ public class QueryBuilder
     /**
      * Returns the results for the query as it currently stands.
      */
-    public DataFeed query ()
+    public QueryResults query ()
     {
         fillInQuery();
 
         try {
-            return _service.getFeed(_query, DataFeed.class);
+            return new QueryResults(_service.getFeed(_query, DataFeed.class));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -141,7 +142,7 @@ public class QueryBuilder
         }
         List<String> metrics = new ArrayList<String>();
         List<String> dimensions = new ArrayList<String>();
-        for (Source source : _sources) {
+        for (Source<?> source : _sources) {
             if(source instanceof Dimension) {
                 dimensions.add(source.getName());
             } else {
@@ -152,7 +153,7 @@ public class QueryBuilder
         _query.setDimensions(constructQueryString(dimensions));
     }
 
-    protected static String join (String[] values, String separator)
+    public static String join (String[] values, String separator)
     {
         if (values.length == 0) {
             return "";
@@ -169,7 +170,7 @@ public class QueryBuilder
 
     protected final DataQuery _query;
 
-    protected final Set<Source> _sources = new HashSet<Source>();
+    protected final Set<Source<?>> _sources = new HashSet<Source<?>>();
 
     protected final AnalyticsService _service;
 }

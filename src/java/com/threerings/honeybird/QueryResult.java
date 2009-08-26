@@ -1,6 +1,6 @@
 /*
    honeybird - Fluent queries for Google Analytics
-   src/java/com/threerings/honeybird/VisitorType.java
+   src/java/com/threerings/honeybird/QueryResult.java
 
    Copyright 2009 Three Rings Design, Inc.
 
@@ -18,18 +18,19 @@
 */
 package com.threerings.honeybird;
 
-public enum VisitorType {
-    NEW("New Visitor"), RETURNING("ReturningVisitor");
+import com.google.gdata.data.analytics.DataEntry;
 
-    VisitorType (String value)
+
+public class QueryResult
+{
+    public QueryResult (DataEntry next)
     {
-        this.value = value;
+        _entry = next;
     }
 
-    public final String value;
-
-    public static VisitorType get (String analyticsValue)
-    {
-        return analyticsValue.equals(NEW.value) ? NEW : RETURNING;
+    public <V> V getValue (Source<V> metric) {
+        return metric.extractValue(_entry);
     }
+
+    protected final DataEntry _entry;
 }
