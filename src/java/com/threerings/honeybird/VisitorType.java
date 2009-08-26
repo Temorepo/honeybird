@@ -18,20 +18,20 @@
 */
 package com.threerings.honeybird;
 
-public class VisitorType extends Dimension
+public class VisitorType implements Source
 {
-    protected VisitorType ()
-    {
-        super("ga:visitorType");
-    }
-
     public Filter isNew ()
     {
-        return eq("New Visitor");
+        return new FilterExpression(this, "==", "New Visitor");
     }
 
     public Filter isReturning ()
     {
-        return eq("Returning Visitor");
+        return new FilterExpression(this, "==", "Returning Visitor");
+    }
+
+    public String getName ()
+    {
+        return "ga:visitorType";
     }
 }
