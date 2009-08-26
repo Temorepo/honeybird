@@ -1,0 +1,4 @@
+This generates the contents of Dimensions.java and Metrics.java from the reference on the Analytics
+API site.  First, run python fetch_sources.py > sources.py to update the dictionary of dimensions
+and metrics.  Then run python type_sources.py to add any additional types from those sources.
+Finally, run python generate_java.py to update the java files.

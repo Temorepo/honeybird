@@ -83,9 +83,9 @@ public class QueryBuilder
     /**
      * Adds the given Dimensions or Metrics to the results from this query.
      */
-    public QueryBuilder add (Source... sources)
+    public QueryBuilder add (Source<?>... sources)
     {
-        for (Source source : sources) {
+        for (Source<?> source : sources) {
             _sources.add(source);
         }
         return this;
@@ -141,7 +141,7 @@ public class QueryBuilder
         }
         List<String> metrics = new ArrayList<String>();
         List<String> dimensions = new ArrayList<String>();
-        for (Source source : _sources) {
+        for (Source<?> source : _sources) {
             if(source instanceof Dimension) {
                 dimensions.add(source._name);
             } else {
@@ -169,7 +169,7 @@ public class QueryBuilder
 
     protected final DataQuery _query;
 
-    protected final Set<Source> _sources = new HashSet<Source>();
+    protected final Set<Source<?>> _sources = new HashSet<Source<?>>();
 
     protected final AnalyticsService _service;
 }

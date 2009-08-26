@@ -18,26 +18,26 @@
 */
 package com.threerings.honeybird;
 
-public class Source
+public class Source<T>
 {
     protected Source (String name)
     {
         _name = name;
     }
 
-    public Filter eq (String value)
+    public Filter eq (T value)
     {
         return expr("==", value);
     }
 
-    public Filter neq (String value)
+    public Filter neq (T value)
     {
         return expr("!=", value);
     }
 
-    protected FilterExpression expr (String op, String value)
+    protected FilterExpression expr (String op, T value)
     {
-        return new FilterExpression(this, op, value);
+        return new FilterExpression(this, op, value.toString());
     }
 
     @Override
@@ -47,7 +47,7 @@ public class Source
             return true;
         }
         if (other instanceof Source) {
-            return ((Source)other)._name.equals(_name);
+            return ((Source<?>)other)._name.equals(_name);
         }
         return false;
     }

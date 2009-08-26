@@ -18,29 +18,29 @@
 */
 package com.threerings.honeybird;
 
-public class Metric extends Source
+public class Metric<T> extends Source<T>
 {
     protected Metric (String name)
     {
         super(name);
     }
 
-    public Filter gt (String value)
+    public Filter gt (T value)
     {
         return expr(">", value);
     }
 
-    public Filter lt (String value)
+    public Filter lt (T value)
     {
         return expr("<", value);
     }
 
-    public Filter gte (String value)
+    public Filter gte (T value)
     {
         return expr(">=", value);
     }
 
-    public Filter lte (String value)
+    public Filter lte (T value)
     {
         return expr("<=", value);
     }
