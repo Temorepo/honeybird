@@ -21,6 +21,10 @@ package com.threerings.honeybird;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Filters a specific source using a fixed operator and restriction. These are created
+ * automatically by using a function that creates a Filter on a metric or a dimension.
+ */
 public class FilterExpression
     implements Filter
 {

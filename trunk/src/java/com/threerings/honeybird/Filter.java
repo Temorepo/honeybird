@@ -20,13 +20,31 @@ package com.threerings.honeybird;
 
 import java.util.Set;
 
+/**
+ * Restricts the results from a query.
+ */
 public interface Filter
 {
+    /**
+     * Returns the representation of this filter for inclusion in the query.
+     */
     String makeFilter ();
 
+    /**
+     * Returns the sources that this filter restricts.
+     */
     Set<Source<?>> getSources ();
 
+    /**
+     * Combines this filter with the given filter and restricts results such that both must accept
+     * an item to include it. This has a lower precedence than {@link #or} if an or is also
+     * included in a filter.
+     */
     Filter and(Filter additional);
 
-    Filter or(Filter additional);
+    /**
+     * Combines this filter with the given filter and allows an item through if either accepts it.
+     * This has a higher precedence than {@link #and} if an and is also included in a filter.
+     */
+    Filter or (Filter additional);
 }
