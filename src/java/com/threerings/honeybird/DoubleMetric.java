@@ -20,6 +20,9 @@ package com.threerings.honeybird;
 
 import com.google.gdata.data.analytics.DataEntry;
 
+/**
+ * Represents metrics with double values.
+ */
 public class DoubleMetric extends Metric<Double>
 {
     protected DoubleMetric (String name)

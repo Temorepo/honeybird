@@ -20,6 +20,9 @@ package com.threerings.honeybird;
 
 import com.google.gdata.data.analytics.DataEntry;
 
+/**
+ * Represents a dimension that can be represented as a String.
+ */
 public class Dimension extends FilterSource<String>
 {
     public Dimension (String name)
@@ -37,21 +40,33 @@ public class Dimension extends FilterSource<String>
         return entry.stringValueOf(getName());
     }
 
+    /**
+     * Allows only dimensions that match the given regular expression in the query's results.
+     */
     public Filter matches (String value)
     {
         return expr("=~", value);
     }
 
+    /**
+     * Allows only dimensions that don't match the given regular expression in the query's results.
+     */
     public Filter nmatches (String value)
     {
         return expr("!~", value);
     }
 
+    /**
+     * Allows only dimensions that contain the given String in the query's results.
+     */
     public Filter contains (String value)
     {
         return expr("=@", value);
     }
 
+    /**
+     * Allows only dimensions that don't contain the given String in the query's results.
+     */
     public Filter ncontains (String value)
     {
         return expr("!@", value);

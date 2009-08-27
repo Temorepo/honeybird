@@ -24,14 +24,24 @@ import com.google.gdata.data.analytics.Aggregates;
 import com.google.gdata.data.analytics.DataEntry;
 import com.google.gdata.data.analytics.DataFeed;
 
-
+/**
+ * Wraps the results of an analytics query, exposing the aggregate and individual results
+ * conveniently to dimension and metric objects.
+ */
 public class QueryResults implements Iterable<QueryResult>
 {
+    /**
+     * Creates a QueryResults wrapping the given DataFeed.
+     */
     public QueryResults (DataFeed result)
     {
         _result = result;
     }
 
+    /**
+     * Returns the aggregate value for the given Metric, or throws an IllegalArgumentException if
+     * that metric wasn't in the query.
+     */
     public <V> V getAggregate (Metric<V> source)
     {
         Aggregates aggs = _result.getAggregates();
@@ -43,6 +53,24 @@ public class QueryResults implements Iterable<QueryResult>
         throw new IllegalArgumentException(source.getName() + " wasn't included in this query!");
     }
 
+    /**
+     * Returns the 95% confidence interval for the given metric metric (lower is better). If the
+     * metric isn't present, an IllegalArgumentException is thrown.
+     */
+    public Double getCondfidenceInterval (Metric<?> source)
+    {
+        Aggregates aggs = _result.getAggregates();
+        for (com.google.gdata.data.analytics.Metric aggMetric : aggs.getMetrics()) {
+            if (aggMetric.getName().equals(source.getName())) {
+                return aggMetric.getConfidenceInterval();
+            }
+        }
+        throw new IllegalArgumentException(source.getName() + " wasn't included in this query!");
+    }
+
+    /**
+     * Returns an Iterator over the individual results of the query.
+     */
     public Iterator<QueryResult> iterator ()
     {
         final Iterator<DataEntry> source = _result.getEntries().iterator();

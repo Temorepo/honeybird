@@ -23,16 +23,18 @@ import java.util.Set;
 
 import com.google.gdata.util.common.base.Joiner;
 
-
-
+/**
+ * Contains implementations for and and or filters. These should normally be accessed through the
+ * and and or methods on {@link Filter}.
+ */
 public class Filters
 {
-    static Filter AND (final Filter... filters)
+    public static Filter AND (final Filter... filters)
     {
         return new BooleanFilter(filters, ";");
     }
 
-    static Filter OR (final Filter... filters)
+    public static Filter OR (final Filter... filters)
     {
         return new BooleanFilter(filters, ",");
     }

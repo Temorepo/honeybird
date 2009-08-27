@@ -20,16 +20,30 @@ package com.threerings.honeybird;
 
 import com.google.gdata.data.analytics.DataEntry;
 
-
+/**
+ * Wraps a result for a single dimension combination from an analytics query.
+ */
 public class QueryResult
 {
-    public QueryResult (DataEntry next)
+    /**
+     * Wraps the given entry.
+     */
+    public QueryResult (DataEntry entry)
     {
-        _entry = next;
+        _entry = entry;
     }
 
-    public <V> V getValue (Source<V> metric) {
-        return metric.extractValue(_entry);
+    /**
+     * Returns the value for the given metric or dimension. If the metric or dimension isn't
+     * present, an IllegalArgumentException is thrown.
+     */
+    public <V> V getValue (Source<V> metric)
+    {
+        V result = metric.extractValue(_entry);
+        if (result == null) {
+            throw new IllegalArgumentException(metric.getName() + " wasn't present in the result");
+        }
+        return result;
     }
 
     protected final DataEntry _entry;
