@@ -38,51 +38,43 @@ public interface %(class)s
 {
 '''
 
-custom_sources = {"ga:visitorType": "VisitorTypeDimension"}
+wrapper = textwrap.TextWrapper(width=100, initial_indent='     * ', subsequent_indent='     * ',
+        break_long_words=False)
 def generate_metrics(out):
-    out.write(header % {"class": "Metrics"})
-    wrapper = textwrap.TextWrapper(width=100, initial_indent='     * ', subsequent_indent='     * ',
-            break_long_words=False)
-    for metric, descr in sources["Metric"]:
-        descr = wrapper.fill(descr)
-        constant = asConstant(metric)
-        if metric in custom_sources:
-            javatype = custom_sources[metric]
-            args = ""
+    for source, descr in sources["Metric"]:
+        if metric_types[source] == "l":
+            javatype = "LongMetric"
         else:
-            if metric_types[metric] == "l":
-                javatype = "LongMetric"
-            else:
-                javatype = "DoubleMetric"
-            args = '"%s"' % metric
-        out.write('''    /**
-%(descr)s
-     */
-    public static final %(javatype)s %(constant)s = new %(javatype)s(%(args)s);
+            javatype = "DoubleMetric"
+        write_constant(out, descr, javatype, source, '"%s"' % source)
 
-''' % locals())
-    out.write("}\n")
-
+custom_dimensions = {"ga:visitorType": "VisitorTypeDimension"}
 def generate_dimensions(out):
-    out.write(header % {"class": "Dimensions"})
-    wrapper = textwrap.TextWrapper(width=100, initial_indent='     * ', subsequent_indent='     * ',
-            break_long_words=False)
     for source, descr in sources["Dimension"]:
-        descr = wrapper.fill(descr)
-        constant = asConstant(source)
-        if source in custom_sources:
-            javatype = custom_sources[source]
+        if source in custom_dimensions:
+            javatype = custom_dimensions[source]
             args = ""
         else:
             javatype = "Dimension"
             args = '"%s"' % source
-        out.write('''    /**
-    %(descr)s
-     */
-    public static final %(javatype)s %(constant)s = new %(javatype)s(%(args)s);
+        write_constant(out, descr, javatype, source, args)
+        
 
-    ''' % locals())
+def write_constant(out, descr, javatype, source, args):
+    descr = wrapper.fill(descr)
+    constant = asConstant(source)
+    out.write('''    /**
+%(descr)s
+ */
+public static final %(javatype)s %(constant)s = new %(javatype)s(%(args)s);
+
+''' % locals())
+
+def write_java(classname, bodywriter):
+    out = open("../src/java/com/threerings/honeybird/%ss.java" % classname, 'w')
+    out.write(header % {"class": classname})
+    bodywriter(out)
     out.write("}\n")
 
-generate_metrics(open("../src/java/com/threerings/honeybird/Metrics.java", 'w'))
-generate_dimensions(open("../src/java/com/threerings/honeybird/Dimensions.java", 'w'))
+write_java("Metrics", generate_metrics)
+write_java("Dimensions", generate_dimensions)
