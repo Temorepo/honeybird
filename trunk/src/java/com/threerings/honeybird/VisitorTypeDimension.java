@@ -40,4 +40,9 @@ public class VisitorTypeDimension
     {
         return VisitorType.get(entry.stringValueOf(getName()));
     }
+
+    public boolean isDimension ()
+    {
+        return true;
+    }
 }

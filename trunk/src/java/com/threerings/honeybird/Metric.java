@@ -45,5 +45,10 @@ public abstract class Metric<T> extends FilterSource<T>
         return expr("<=", value);
     }
 
+    public boolean isDimension ()
+    {
+        return false;
+    }
+
     public abstract T extractValue (com.google.gdata.data.analytics.Metric aggMetric);
 }

@@ -25,4 +25,6 @@ public interface Source<V>
     String getName();
 
     V extractValue(DataEntry entry);
+
+    boolean isDimension();
 }
