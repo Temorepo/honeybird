@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-core.jar"/>
-	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-analytics.jar"/>
+	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-core.jar" sourcepath="/SRCDIR/gdata-1.36"/>
+	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-analytics.jar" sourcepath="/SRCDIR/gdata-1.36/java/src"/>
 	<classpathentry kind="output" path="dist/classes"/>
 </classpath>
