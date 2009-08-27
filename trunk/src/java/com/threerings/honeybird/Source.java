@@ -24,6 +24,9 @@ public interface Source<V>
 {
     String getName();
 
+    /**
+     * Returns the value of this source contained in the given entry or null if it isn't present.
+     */
     V extractValue(DataEntry entry);
 
     boolean isDimension();

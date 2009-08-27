@@ -1,6 +1,8 @@
 package com.threerings.honeybird;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.junit.Test;
@@ -22,13 +24,36 @@ public class QueryBuilderTest
     }
 
     @Test
-    public void testDefaultToToday ()
+    public void testSettingDates ()
     {
         QueryBuilder builder = new QueryBuilder(null, null);
         builder.fillInQuery();
-        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-        assertEquals(today, builder._query.getStartDate());
-        assertEquals(today, builder._query.getEndDate());
+        // Defaults to today
+        assertEquals(formatter.format(new Date()), builder._query.getStartDate());
+        assertEquals(formatter.format(new Date()), builder._query.getEndDate());
+        Calendar cal = Calendar.getInstance();
+
+        // Using on sets start and end
+        cal.add(Calendar.DATE, -2);
+        builder.on(cal.getTime()).fillInQuery();
+        assertEquals(formatter.format(cal.getTime()), builder._query.getStartDate());
+        assertEquals(formatter.format(cal.getTime()), builder._query.getEndDate());
+
+        // Using from sets start only
+        String previousEnd = builder._query.getEndDate();
+        cal.add(Calendar.DATE, -2);
+        builder.from(cal.getTime()).fillInQuery();
+        assertEquals(formatter.format(cal.getTime()), builder._query.getStartDate());
+        assertEquals(previousEnd, builder._query.getEndDate());
+
+        // Using to sets end only
+        String previousStart = builder._query.getStartDate();
+        cal.add(Calendar.DATE, 1);
+        builder.to(cal.getTime()).fillInQuery();
+        assertEquals(previousStart, builder._query.getStartDate());
+        assertEquals(formatter.format(cal.getTime()), builder._query.getEndDate());
     }
+
+    protected final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 }
