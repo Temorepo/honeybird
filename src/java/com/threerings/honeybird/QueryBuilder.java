@@ -143,7 +143,7 @@ public class QueryBuilder
         List<String> metrics = new ArrayList<String>();
         List<String> dimensions = new ArrayList<String>();
         for (Source<?> source : _sources) {
-            if(source instanceof Dimension) {
+            if (source.isDimension()) {
                 dimensions.add(source.getName());
             } else {
                 metrics.add(source.getName());

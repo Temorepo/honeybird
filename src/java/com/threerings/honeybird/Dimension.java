@@ -27,6 +27,16 @@ public class Dimension extends FilterSource<String>
         super(name);
     }
 
+    public boolean isDimension ()
+    {
+        return true;
+    }
+
+    public String extractValue (DataEntry entry)
+    {
+        return entry.stringValueOf(getName());
+    }
+
     public Filter matches (String value)
     {
         return expr("=~", value);
@@ -45,10 +55,5 @@ public class Dimension extends FilterSource<String>
     public Filter ncontains (String value)
     {
         return expr("!@", value);
-    }
-
-    public String extractValue (DataEntry entry)
-    {
-        return entry.stringValueOf(getName());
     }
 }
