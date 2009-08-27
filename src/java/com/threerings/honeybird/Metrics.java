@@ -102,19 +102,19 @@ public interface Metrics
     /**
      * Cost to advertiser per click.
      */
-    public static final DoubleMetric _C_P_C = new DoubleMetric("ga:CPC");
+    public static final DoubleMetric CPC = new DoubleMetric("ga:CPC");
 
     /**
      * Cost per thousand impressions.
      */
-    public static final DoubleMetric _C_P_M = new DoubleMetric("ga:CPM");
+    public static final DoubleMetric CPM = new DoubleMetric("ga:CPM");
 
     /**
      * Click-through-rate for your ad. This is equal to the number of clicks divided by the number
      * of impressions for your ad (e.g. how many times users clicked on one of your ads where that
      * ad appeared).
      */
-    public static final DoubleMetric _C_T_R = new DoubleMetric("ga:CTR");
+    public static final DoubleMetric CTR = new DoubleMetric("ga:CTR");
 
     /**
      * Total number of campaign impressions.
