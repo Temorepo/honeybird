@@ -65,13 +65,13 @@ def write_constant(out, descr, javatype, source, args):
     constant = asConstant(source)
     out.write('''    /**
 %(descr)s
- */
-public static final %(javatype)s %(constant)s = new %(javatype)s(%(args)s);
+     */
+    public static final %(javatype)s %(constant)s = new %(javatype)s(%(args)s);
 
 ''' % locals())
 
 def write_java(classname, bodywriter):
-    out = open("../src/java/com/threerings/honeybird/%ss.java" % classname, 'w')
+    out = open("../src/java/com/threerings/honeybird/%s.java" % classname, 'w')
     out.write(header % {"class": classname})
     bodywriter(out)
     out.write("}\n")
