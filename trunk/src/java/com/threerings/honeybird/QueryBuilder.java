@@ -24,7 +24,6 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -33,6 +32,7 @@ import java.util.Set;
 import com.google.gdata.client.analytics.AnalyticsService;
 import com.google.gdata.client.analytics.DataQuery;
 import com.google.gdata.data.analytics.DataFeed;
+import com.google.gdata.util.common.base.Joiner;
 
 public class QueryBuilder
 {
@@ -130,11 +130,6 @@ public class QueryBuilder
         }
     }
 
-    protected String constructQueryString (Collection<String> pieces)
-    {
-        return join(pieces.toArray(new String[pieces.size()]), ",");
-    }
-
     protected void fillInQuery ()
     {
         if (_filter != null) {
@@ -149,24 +144,11 @@ public class QueryBuilder
                 metrics.add(source.getName());
             }
         }
-        _query.setMetrics(constructQueryString(metrics));
-        _query.setDimensions(constructQueryString(dimensions));
+        _query.setMetrics(Joiner.on(",").join(metrics));
+        _query.setDimensions(Joiner.on(",").join(dimensions));
         DateFormat queryDayFormat = new SimpleDateFormat("yyyy-MM-dd");
         _query.setStartDate(queryDayFormat.format(_start));
         _query.setEndDate(queryDayFormat.format(_end));
-    }
-
-    protected static String join (String[] values, String separator)
-    {
-        if (values.length == 0) {
-            return "";
-        }
-        StringBuilder buf = new StringBuilder();
-        for (String val : values) {
-            buf.append(val).append(separator);
-        }
-        buf.setLength(buf.length() - separator.length());
-        return buf.toString();
     }
 
     protected Filter _filter;

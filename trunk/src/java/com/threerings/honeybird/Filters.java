@@ -21,6 +21,8 @@ package com.threerings.honeybird;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.gdata.util.common.base.Joiner;
+
 
 
 public class Filters
@@ -54,7 +56,7 @@ public class Filters
             for (int ii = 0; ii < pieces.length; ii++) {
                 pieces[ii] = filters[ii].makeFilter();
             }
-            return QueryBuilder.join(pieces, joiner);
+            return Joiner.on(joiner).join(pieces);
         }
 
         public Set<Source<?>> getSources ()
