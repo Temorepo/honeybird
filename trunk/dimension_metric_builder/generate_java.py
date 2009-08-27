@@ -5,8 +5,14 @@ from metric_types import types as metric_types
 from string import uppercase
 
 def asConstant(sourceName):
-    sourceName = sourceName[3:]
-    return "".join(["_" + s if s in uppercase else s.upper() for s in sourceName])
+    chars = []
+    previousUpper = True
+    for char in sourceName[3:]:
+        if char in uppercase and not previousUpper:
+            chars.append('_')
+        previousUpper = char in uppercase
+        chars.append(char.upper())
+    return "".join(chars)
 
 header = '''/*
    honeybird - Fluent queries for Google Analytics
