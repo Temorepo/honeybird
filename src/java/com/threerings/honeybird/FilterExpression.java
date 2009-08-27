@@ -21,7 +21,7 @@ package com.threerings.honeybird;
 import java.util.HashSet;
 import java.util.Set;
 
-class FilterExpression
+public class FilterExpression
     implements Filter
 {
     protected final Source<?> toFilter;

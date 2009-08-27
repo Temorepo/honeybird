@@ -34,7 +34,6 @@ import com.google.gdata.client.analytics.AnalyticsService;
 import com.google.gdata.client.analytics.DataQuery;
 import com.google.gdata.data.analytics.DataFeed;
 
-
 public class QueryBuilder
 {
     /**
@@ -45,30 +44,6 @@ public class QueryBuilder
      */
     public QueryBuilder (String profileId, AnalyticsService service)
     {
-        this(profileId, service, new Date());
-    }
-
-    /**
-     * Creates a QueryBuilder for the given day.
-     *
-     * @param profileId -Google Analytics profile ID, prefixed by 'ga:'
-     * @param service - An AnalyticsService configured with permission to access the given profile
-     */
-    public QueryBuilder (String profileId, AnalyticsService service, Date onDay)
-    {
-        this(profileId, service, onDay, onDay);
-    }
-
-    /**
-     * Creates a QueryBuilder from <code>fromDay<code> to <code>toDay</code>, inclusive on both
-     * ends.
-     *
-     * @param profileId -Google Analytics profile ID, prefixed by 'ga:'
-     * @param service - An AnalyticsService configured with permission to access the given profile
-     */
-    public QueryBuilder (String profileId, AnalyticsService service, Date fromDay,
-            Date toDay)
-    {
         _service = service;
         try {
             _query = new DataQuery(new URL("https://www.google.com/analytics/feeds/data"));
@@ -76,13 +51,11 @@ public class QueryBuilder
             throw new RuntimeException(e);
         }
         _query.setIds(profileId);
-        DateFormat queryDayFormat = new SimpleDateFormat("yyyy-MM-dd");
-        _query.setStartDate(queryDayFormat.format(fromDay));
-        _query.setEndDate(queryDayFormat.format(toDay));
+        on(new Date());
     }
 
     /**
-     * Adds the given Dimensions or Metrics to the results from this query.
+     * Adds the given dimensions or metrics to the results from this query.
      */
     public QueryBuilder add (Source<?>... sources)
     {
@@ -95,7 +68,7 @@ public class QueryBuilder
     /**
      * Filters the data from this query through the given operation. If a filter is already set,
      * it's and'd with the given filter. If the filters reference sources not currently in the
-     * query, those sources are added.
+     * query, those sources are added to the results.
      */
     public QueryBuilder filter (Filter filter)
     {
@@ -105,6 +78,33 @@ public class QueryBuilder
         } else {
             _filter = _filter.and(filter);
         }
+        return this;
+    }
+
+    /**
+     * Sets the start day for the query.
+     */
+    public QueryBuilder from (Date date)
+    {
+        _start = date;
+        return this;
+    }
+
+    /**
+     * Sets the end day for the query.
+     */
+    public QueryBuilder to (Date date)
+    {
+        _end = date;
+        return this;
+    }
+
+    /**
+     * Sets the query to consist only of the given day.
+     */
+    public QueryBuilder on (Date date)
+    {
+        _start = _end = date;
         return this;
     }
 
@@ -151,9 +151,12 @@ public class QueryBuilder
         }
         _query.setMetrics(constructQueryString(metrics));
         _query.setDimensions(constructQueryString(dimensions));
+        DateFormat queryDayFormat = new SimpleDateFormat("yyyy-MM-dd");
+        _query.setStartDate(queryDayFormat.format(_start));
+        _query.setEndDate(queryDayFormat.format(_end));
     }
 
-    public static String join (String[] values, String separator)
+    protected static String join (String[] values, String separator)
     {
         if (values.length == 0) {
             return "";
@@ -167,6 +170,8 @@ public class QueryBuilder
     }
 
     protected Filter _filter;
+
+    protected Date _start, _end;
 
     protected final DataQuery _query;
 
