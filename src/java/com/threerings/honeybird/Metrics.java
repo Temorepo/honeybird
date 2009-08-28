@@ -26,18 +26,18 @@ public interface Metrics
     public static final LongMetric BOUNCES = new LongMetric("ga:bounces");
 
     /**
-     * The number of entrances to your site.  The value will always be equal to the number of visits
-     * when aggregated over your entire website.  Thus, this metric is most useful when combined
-     * with dimensions such as <code>ga:landingPagePath</code>, at which point entrances as a metric
+     * The number of entrances to your site. The value will always be equal to the number of visits
+     * when aggregated over your entire website. Thus, this metric is most useful when combined with
+     * dimensions such as <code>ga:landingPagePath</code>, at which point entrances as a metric
      * indicates the number of times a particular page served as an entrance to your site.
      */
     public static final LongMetric ENTRANCES = new LongMetric("ga:entrances");
 
     /**
      * The number of exits from your site. As with entrances, it will always be equal to the number
-     * of visits when aggregated over your entire website.  Use this metric in combination with
+     * of visits when aggregated over your entire website. Use this metric in combination with
      * content dimensions such as <code>ga:exitPagePath</code> in order to determine the number of
-     * times  a particular page was the last one viewed by visitors.
+     * times a particular page was the last one viewed by visitors.
      */
     public static final LongMetric EXITS = new LongMetric("ga:exits");
 
@@ -47,27 +47,32 @@ public interface Metrics
     public static final LongMetric NEW_VISITS = new LongMetric("ga:newVisits");
 
     /**
-     * The total  number of pageviews for your site when aggregated over the selected dimension.
-     * For example, if you select this metric together with <code>ga:pagePath</code>, it will return
-     * the number of page views for each  URI.
+     * The total number of pageviews for your site when aggregated over the selected dimension. For
+     * example, if you select this metric together with <code>ga:pagePath</code>, it will return the
+     * number of page views for each URI.
      */
     public static final LongMetric PAGEVIEWS = new LongMetric("ga:pageviews");
 
     /**
-     * How long a visitor spent on a particular page or set of pages.  Calculated by subtracting the
+     * How long a visitor spent on a particular page or set of pages. Calculated by subtracting the
      * initial view time for a particular page from the initial view time for a subsequent page.
-     * Thus, this metric does not apply to exit pages for your site.
+     * Thus, this metric does not apply to exit pages for your site. The value from this metric is
+     * returned in the XML as a string, with the value represented in total seconds. Different
+     * client libraries have various ways of representing this value, such as a double, float, long,
+     * or string.
      */
     public static final LongMetric TIME_ON_PAGE = new LongMetric("ga:timeOnPage");
 
     /**
-     * The total duration of visitor sessions over the selected dimension.  For example, suppose you
-     * combine this field with a particular ad campaign.  In this case, the metric will display the
+     * The total duration of visitor sessions over the selected dimension. For example, suppose you
+     * combine this field with a particular ad campaign. In this case, the metric will display the
      * total duration of all visitor sessions for those visitors who came to your site via a
-     * particular ad campaign.  You could then compare this metric to the duration of all visitors
-     * who came to your site through means other than the particular ad campaign.  This would then
+     * particular ad campaign. You could then compare this metric to the duration of all visitors
+     * who came to your site through means other than the particular ad campaign. This would then
      * give you a side-by-side comparison and a means to calculate the boost in visit duration
-     * provided by a particular campaign.
+     * provided by a particular campaign. The value from this metric is returned in the XML as a
+     * string, with the value represented in total seconds. Different client libraries have various
+     * ways of representing this value, such as a double, float, long, or string.
      */
     public static final LongMetric TIME_ON_SITE = new LongMetric("ga:timeOnSite");
 
@@ -83,8 +88,8 @@ public interface Metrics
      * session, which times out automatically after 30 minutes unless the visitor continues activity
      * on your site, or unless you have adjusted the user session in the <code>ga.js</code> tracking
      * for your site. See <a
-     * href="/apis/analytics/docs/tracking/gaTrackingVisitors.html#userSession">Adjusting the User
-     * Session</a> for more information.
+     * href="http://code.google.com/apis/analytics/docs/tracking/gaTrackingVisitors.html#userSession">Adjusting
+     * the User Session</a> for more information.
      */
     public static final LongMetric VISITS = new LongMetric("ga:visits");
 
@@ -122,19 +127,20 @@ public interface Metrics
     public static final LongMetric IMPRESSIONS = new LongMetric("ga:impressions");
 
     /**
-     * The number of different (unique) pages within a visit,  summed up across all visits
+     * The number of different (unique) pages within a visit, summed up across all visits
      */
     public static final LongMetric UNIQUE_PAGEVIEWS = new LongMetric("ga:uniquePageviews");
 
     /**
      * Total revenue from purchased product items on your site. See the tracking API reference for
-     * <a href="/apis/analytics/docs/gaJS/gaJSApiEcommerce.html"><code>_addItem()</code></a> for
-     * additional information.
+     * <a
+     * href="http://code.google.com/apis/analytics/docs/gaJS/gaJSApiEcommerce.html"><code>_addItem()</code></a>
+     * for additional information.
      */
     public static final DoubleMetric ITEM_REVENUE = new DoubleMetric("ga:itemRevenue");
 
     /**
-     * The total number of items purchased.  For example, if  users purchase 2 frisbees and 5 tennis
+     * The total number of items purchased. For example, if users purchase 2 frisbees and 5 tennis
      * balls, 7 items have been purchased.
      */
     public static final LongMetric ITEM_QUANTITY = new LongMetric("ga:itemQuantity");
@@ -142,7 +148,7 @@ public interface Metrics
     /**
      * The total sale revenue, including shipping and tax, if provided in the transation. See the
      * documentation for <a
-     * href="/apis/analytics/docs/gaJS/gaJSApiEcommerce.html#_gat.GA_Tracker_._addTrans"><code>_addTrans()</code></a>
+     * href="http://code.google.com/apis/analytics/docs/gaJS/gaJSApiEcommerce.html#_gat.GA_Tracker_._addTrans"><code>_addTrans()</code></a>
      * in the tracking API reference for additional information.
      */
     public static final DoubleMetric TRANSACTION_REVENUE = new DoubleMetric("ga:transactionRevenue");
@@ -163,8 +169,8 @@ public interface Metrics
     public static final DoubleMetric TRANSACTION_TAX = new DoubleMetric("ga:transactionTax");
 
     /**
-     * The number of product sets purchased.  For example, if  users purchase 2 frisbees and 5
-     * tennis balls from your site,  2 product sets have been purchased.
+     * The number of product sets purchased. For example, if users purchase 2 frisbees and 5 tennis
+     * balls from your site, 2 product sets have been purchased.
      */
     public static final LongMetric UNIQUE_PURCHASES = new LongMetric("ga:uniquePurchases");
 
