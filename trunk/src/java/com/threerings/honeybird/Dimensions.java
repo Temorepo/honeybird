@@ -21,44 +21,44 @@ package com.threerings.honeybird;
 public interface Dimensions
 {
     /**
-     * The names of browsers used by visitors to your website.  For example,  &quot;Internet
-     * Explorer&quot; or &quot;Firefox.&quot;  The version of the browser is not returned in this
+     * The names of browsers used by visitors to your website. For example, &quot;Internet
+     * Explorer&quot; or &quot;Firefox.&quot; The version of the browser is not returned in this
      * field.
      */
     public static final Dimension BROWSER = new Dimension("ga:browser");
 
     /**
-     * The browser versions used by visitors to your site.  For example, 2.0.0.14
+     * The browser versions used by visitors to your site. For example, 2.0.0.14
      */
     public static final Dimension BROWSER_VERSION = new Dimension("ga:browserVersion");
 
     /**
-     * The cities of site visitors, derived from IP addresses.  The <code>city</code> field falls in
+     * The cities of site visitors, derived from IP addresses. The <code>city</code> field falls in
      * a hierarchy of geographical groupings used in Analytics, which proceeds in the following
      * order: continent, sub-continent, country, region, sub-region, and city.
      */
     public static final Dimension CITY = new Dimension("ga:city");
 
     /**
-     * The qualitative network connection speeds of   site visitors.  For example, T1, DSL, Cable,
+     * The qualitative network connection speeds of site visitors. For example, T1, DSL, Cable,
      * Dialup.
      */
     public static final Dimension CONNECTION_SPEED = new Dimension("ga:connectionSpeed");
 
     /**
-     * The continents of site visitors, derived from  IP addresses.
+     * The continents of site visitors, derived from IP addresses.
      */
     public static final Dimension CONTINENT = new Dimension("ga:continent");
 
     /**
-     * Number of visits to your site. This  is calculated by determining the number of visitor
+     * Number of visits to your site. This is calculated by determining the number of visitor
      * sessions. For example, if a visitor comes to your site, exits their browser, and 5 minutes
      * later visits your site again via the same browser, that is calculated as 2 visits.
      */
     public static final Dimension COUNT_OF_VISITS = new Dimension("ga:countOfVisits");
 
     /**
-     * The countries of site visitors, derived from  IP addresses.
+     * The countries of site visitors, derived from IP addresses.
      */
     public static final Dimension COUNTRY = new Dimension("ga:country");
 
@@ -73,7 +73,7 @@ public interface Dimensions
     public static final Dimension DAY = new Dimension("ga:day");
 
     /**
-     *  The number of days elapsed since visitors last visited the site.  Used to calculate visitor
+     * The number of days elapsed since visitors last visited the site. Used to calculate visitor
      * loyalty. For example, if you view this field in a report on 5/20, and some visitors last
      * visited your site on 5/15, the value for this would be 5, reported as &quot;5 days ago.&quot;
      */
@@ -85,8 +85,8 @@ public interface Dimensions
     public static final Dimension FLASH_VERSION = new Dimension("ga:flashVersion");
 
     /**
-     * The hostnames visitors used to reach your site.  In other words, if some visitors use
-     * <em>www.googlestore.com</em> to reach your site,  this string appears as one of the hostnames
+     * The hostnames visitors used to reach your site. In other words, if some visitors use
+     * <em>www.googlestore.com</em> to reach your site, this string appears as one of the hostnames
      * used to reach your site. However, if other visitors also come to your site via
      * <em>googlestore.com</em> or via an IP redirect from a search engine result
      * (<code>66.102.9.104</code>), those values will also be present in this field.
@@ -95,8 +95,8 @@ public interface Dimensions
 
     /**
      * A two digit hour of the day ranging from 00-23. (Google Analytics does not track visitor time
-     * more precisely than hours.) <strong>Note</strong>: Combining this dimension with <a
-     * href="#adContent">ga:adContent</a> is not currently supported.
+     * more precisely than hours.) <strong>Note</strong>: Combining this dimension with {@link
+     * #AD_CONTENT} is not currently supported.
      */
     public static final Dimension HOUR = new Dimension("ga:hour");
 
@@ -108,7 +108,7 @@ public interface Dimensions
 
     /**
      * This field uses the language as provided by the HTTP Request for the browser to determine the
-     * primary languages used by  visitors.  Values are given as an ISO-639 code (e.g.  en-gb for
+     * primary languages used by visitors. Values are given as an ISO-639 code (e.g. en-gb for
      * British English).
      */
     public static final Dimension LANGUAGE = new Dimension("ga:language");
@@ -120,7 +120,7 @@ public interface Dimensions
     public static final Dimension LATITUDE = new Dimension("ga:latitude");
 
     /**
-     * The approximate longitude of the visitor's city.   Locations east of the meridian are
+     * The approximate longitude of the visitor's city. Locations east of the meridian are
      * represented by positive values and locations west of the meridian by negative values.
      */
     public static final Dimension LONGITUDE = new Dimension("ga:longitude");
@@ -136,7 +136,7 @@ public interface Dimensions
     public static final Dimension NETWORK_DOMAIN = new Dimension("ga:networkDomain");
 
     /**
-     * The name of service providers used to reach your site.  For example, if most visitors to your
+     * The name of service providers used to reach your site. For example, if most visitors to your
      * site come via the major service providers for cable internet, you will see the names of those
      * cable service providers in this element.
      */
@@ -144,8 +144,8 @@ public interface Dimensions
 
     /**
      * The number of pages visited by visitors during a session (visit). The value is a histogram
-     * that counts  pageviews across a range of possible values. In this calculation, all visits
-     * will have at least one pageview, and some percentage of visits will have more.
+     * that counts pageviews across a range of possible values. In this calculation, all visits will
+     * have at least one pageview, and some percentage of visits will have more.
      */
     public static final Dimension PAGE_DEPTH = new Dimension("ga:pageDepth");
 
@@ -162,7 +162,7 @@ public interface Dimensions
     public static final Dimension OPERATING_SYSTEM_VERSION = new Dimension("ga:operatingSystemVersion");
 
     /**
-     * The region of site visitors, derived from  IP addresses. In the U.S., a region is a state,
+     * The region of site visitors, derived from IP addresses. In the U.S., a region is a state,
      * such as <em>New York</em>.
      */
     public static final Dimension REGION = new Dimension("ga:region");
@@ -180,7 +180,7 @@ public interface Dimensions
     public static final Dimension SCREEN_RESOLUTION = new Dimension("ga:screenResolution");
 
     /**
-     * The sub-continent of site visitors, derived from  IP addresses. For example,
+     * The sub-continent of site visitors, derived from IP addresses. For example,
      * <em>Polynesia</em> or <em>Northern Europe</em>.
      */
     public static final Dimension SUB_CONTINENT = new Dimension("ga:subContinent");
@@ -188,8 +188,8 @@ public interface Dimensions
     /**
      * The value provided when you define custom visitor segments for your site. For more
      * information, see <a
-     * href="/apis/analytics/docs/tracking/gaTrackingVisitors.html#customVisitors">Creating Custom
-     * Visitor Segments</a>.
+     * href="http://code.google.com/apis/analytics/docs/tracking/gaTrackingVisitors.html#customVisitors">Creating
+     * Custom Visitor Segments</a>.
      */
     public static final Dimension USER_DEFINED_VALUE = new Dimension("ga:userDefinedValue");
 
@@ -210,15 +210,15 @@ public interface Dimensions
     public static final Dimension YEAR = new Dimension("ga:year");
 
     /**
-     * The first line of the text for your online Ad campaign.  If you are using mad libs for your
+     * The first line of the text for your online Ad campaign. If you are using mad libs for your
      * AdWords content, this field displays the keywords you provided for the mad libs keyword
-     * match. <strong>Note</strong>: Combining this dimension with <a href="#hour">ga:hour</a> is
-     * not currently supported.
+     * match. <strong>Note</strong>: Combining this dimension with {@link #HOUR} is not currently
+     * supported.
      */
     public static final Dimension AD_CONTENT = new Dimension("ga:adContent");
 
     /**
-     * The ad groups that you have identified for your campaign keywords.  For example, you might
+     * The ad groups that you have identified for your campaign keywords. For example, you might
      * have an ad group <em>toys</em> which you associate with the keywords <em>fuzzy bear</em>.
      */
     public static final Dimension AD_GROUP = new Dimension("ga:adGroup");
@@ -230,8 +230,8 @@ public interface Dimensions
     public static final Dimension AD_SLOT = new Dimension("ga:adSlot");
 
     /**
-     * The  order of the online advertisement as it appears along with other ads in the position on
-     * the page.  For example, the ad might appear on the right side of the page and be the 3rd ad
+     * The order of the online advertisement as it appears along with other ads in the position on
+     * the page. For example, the ad might appear on the right side of the page and be the 3rd ad
      * from the top.
      */
     public static final Dimension AD_SLOT_POSITION = new Dimension("ga:adSlotPosition");
@@ -248,10 +248,10 @@ public interface Dimensions
     public static final Dimension KEYWORD = new Dimension("ga:keyword");
 
     /**
-     * The type of referral to your website. For example,  when referring sources  to your website
-     * are search engines, there are a number of possible mediums that can be used from a search
-     * engine referral: from a search result (organic) and  from an online ad on the search results
-     * page (CPC, ppc, cpa, CPM, cpv, cpp).
+     * The type of referral to your website. For example, when referring sources to your website are
+     * search engines, there are a number of possible mediums that can be used from a search engine
+     * referral: from a search result (organic) and from an online ad on the search results page
+     * (CPC, ppc, cpa, CPM, cpv, cpp).
      */
     public static final Dimension MEDIUM = new Dimension("ga:medium");
 
@@ -289,7 +289,7 @@ public interface Dimensions
     public static final Dimension PAGE_TITLE = new Dimension("ga:pageTitle");
 
     /**
-     * Typically used to designate  a supplying company or brick and mortar location; product
+     * Typically used to designate a supplying company or brick and mortar location; product
      * affiliation.
      */
     public static final Dimension AFFILIATION = new Dimension("ga:affiliation");
@@ -318,14 +318,14 @@ public interface Dimensions
     public static final Dimension PRODUCT_SKU = new Dimension("ga:productSku");
 
     /**
-     *  The transaction ID for the shopping cart purchase as supplied by your ecommerce tracking
+     * The transaction ID for the shopping cart purchase as supplied by your ecommerce tracking
      * method.
      */
     public static final Dimension TRANSACTION_ID = new Dimension("ga:transactionId");
 
     /**
      * If you have categories enabled for internal site search, this field identifies the categories
-     * used for the internal search.  For example, you might have product categories for internal
+     * used for the internal search. For example, you might have product categories for internal
      * search, such as <em>electronics</em>, <em>furniture</em>, or <em>clothing</em>.
      */
     public static final Dimension SEARCH_CATEGORY = new Dimension("ga:searchCategory");
@@ -353,8 +353,8 @@ public interface Dimensions
 
     /**
      * A boolean which separates visitor activity depending upon whether internal search activity
-     * occured or did not occur.       Values are <code>Visits With Site Search</code> and
-     * <code>Visits Without Site Search</code>.
+     * occured or did not occur. Values are <code>Visits With Site Search</code> and <code>Visits
+     * Without Site Search</code>.
      */
     public static final Dimension SEARCH_USED = new Dimension("ga:searchUsed");
 
