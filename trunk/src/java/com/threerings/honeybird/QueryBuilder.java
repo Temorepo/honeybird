@@ -19,14 +19,11 @@
 package com.threerings.honeybird;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.google.gdata.client.analytics.AnalyticsService;
@@ -34,6 +31,9 @@ import com.google.gdata.client.analytics.DataQuery;
 import com.google.gdata.data.analytics.DataFeed;
 import com.google.gdata.util.common.base.Joiner;
 
+/**
+ * Constructs queries using the google analytics API and conveniently exposes their results.
+ */
 public class QueryBuilder
 {
     /**
@@ -60,7 +60,7 @@ public class QueryBuilder
     public QueryBuilder add (Source<?>... sources)
     {
         for (Source<?> source : sources) {
-            _sources.add(source);
+            addSource(source);
         }
         return this;
     }
@@ -72,7 +72,9 @@ public class QueryBuilder
      */
     public QueryBuilder filter (Filter filter)
     {
-        _sources.addAll(filter.getSources());
+        for (Source<?> source: filter.getSources()) {
+            addSource(source);
+        }
         if (_filter == null) {
             _filter = filter;
         } else {
@@ -109,20 +111,11 @@ public class QueryBuilder
     }
 
     /**
-     * Returns the URI for the query as it currently stands.
-     */
-    public URI getQueryURI() {
-        fillInQuery();
-        return _query.getQueryUri();
-    }
-
-    /**
      * Returns the results for the query as it currently stands.
      */
     public QueryResults query ()
     {
         fillInQuery();
-
         try {
             return new QueryResults(_service.getFeed(_query, DataFeed.class));
         } catch (Exception e) {
@@ -135,20 +128,20 @@ public class QueryBuilder
         if (_filter != null) {
             _query.setFilters(_filter.makeFilter());
         }
-        List<String> metrics = new ArrayList<String>();
-        List<String> dimensions = new ArrayList<String>();
-        for (Source<?> source : _sources) {
-            if (source.isDimension()) {
-                dimensions.add(source.getName());
-            } else {
-                metrics.add(source.getName());
-            }
-        }
-        _query.setMetrics(Joiner.on(",").join(metrics));
-        _query.setDimensions(Joiner.on(",").join(dimensions));
+        _query.setMetrics(Joiner.on(",").join(_metrics));
+        _query.setDimensions(Joiner.on(",").join(_dimensions));
         DateFormat queryDayFormat = new SimpleDateFormat("yyyy-MM-dd");
         _query.setStartDate(queryDayFormat.format(_start));
         _query.setEndDate(queryDayFormat.format(_end));
+    }
+
+    protected void addSource (Source<?> source)
+    {
+        if (source.isDimension()) {
+            _dimensions.add(source.getName());
+        } else {
+            _metrics.add(source.getName());
+        }
     }
 
     protected Filter _filter;
@@ -157,7 +150,9 @@ public class QueryBuilder
 
     protected final DataQuery _query;
 
-    protected final Set<Source<?>> _sources = new HashSet<Source<?>>();
+    protected final Set<String> _dimensions = new HashSet<String>();
+
+    protected final Set<String> _metrics = new HashSet<String>();
 
     protected final AnalyticsService _service;
 }
