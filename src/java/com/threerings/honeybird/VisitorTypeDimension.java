@@ -18,14 +18,24 @@ package com.threerings.honeybird;
 
 import com.google.gdata.data.analytics.DataEntry;
 
+/**
+ * Distinguishes between visitors in their first visit to a site, and visitors that have been
+ * there previously.
+ */
 public class VisitorTypeDimension
     implements Source<VisitorType>
 {
+    /**
+     * Allows values through for visitors in their first visit to the site.
+     */
     public Filter isNew ()
     {
         return new FilterExpression(this, "==", VisitorType.NEW.value);
     }
 
+    /**
+     * Allows values through for visitors that have been to the site before their current visit.
+     */
     public Filter isReturning ()
     {
         return new FilterExpression(this, "==", VisitorType.RETURNING.value);

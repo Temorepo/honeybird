@@ -18,6 +18,10 @@
 */
 package com.threerings.honeybird;
 
+/**
+ * Base class for sources that support eq and neq ie dimensions on String and metrics on double or
+ * long.
+ */
 public abstract class FilterSource<T>
     implements Source<T>
 {
@@ -26,11 +30,17 @@ public abstract class FilterSource<T>
         _name = name;
     }
 
+    /**
+     * Allows only values through that are exactly the given value.
+     */
     public Filter eq (T value)
     {
         return expr("==", value);
     }
 
+    /**
+     *  Allows any value through that isn't the given value.
+     */
     public Filter neq (T value)
     {
         return expr("!=", value);
@@ -41,6 +51,10 @@ public abstract class FilterSource<T>
         return _name;
     }
 
+    /**
+     * Returns a FilterExpression for this source's name using the given operation on the given
+     * value.  The value is converted for use in the expression by calling toString on it.
+     */
     protected FilterExpression expr (String op, T value)
     {
         return new FilterExpression(this, op, value.toString());

@@ -18,6 +18,9 @@
 */
 package com.threerings.honeybird;
 
+/**
+ * Base class for metrics.
+ */
 public abstract class Metric<T> extends FilterSource<T>
 {
     protected Metric (String name)
@@ -25,21 +28,33 @@ public abstract class Metric<T> extends FilterSource<T>
         super(name);
     }
 
+    /**
+     * Allows through any value greater than the given value.
+     */
     public Filter gt (T value)
     {
         return expr(">", value);
     }
 
+    /**
+     * Allows through any value less than the given value.
+     */
     public Filter lt (T value)
     {
         return expr("<", value);
     }
 
+    /**
+     * Allows through any value greater than or equal to the given value.
+     */
     public Filter gte (T value)
     {
         return expr(">=", value);
     }
 
+    /**
+     * Allows through any value less than or equal to the given value.
+     */
     public Filter lte (T value)
     {
         return expr("<=", value);
@@ -50,5 +65,8 @@ public abstract class Metric<T> extends FilterSource<T>
         return false;
     }
 
+    /**
+     * Returns the aggregate value for this metric's result type from the given metric.
+     */
     public abstract T extractValue (com.google.gdata.data.analytics.Metric aggMetric);
 }

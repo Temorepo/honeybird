@@ -18,6 +18,9 @@
 */
 package com.threerings.honeybird;
 
+/**
+ * Result from <code>ga:visitorType</code>.
+ */
 public enum VisitorType {
     NEW("New Visitor"), RETURNING("ReturningVisitor");
 
@@ -26,6 +29,9 @@ public enum VisitorType {
         this.value = value;
     }
 
+    /**
+     * The value this type represents.
+     */
     public final String value;
 
     public static VisitorType get (String analyticsValue)
