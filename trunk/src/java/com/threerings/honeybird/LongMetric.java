@@ -20,38 +20,59 @@ package com.threerings.honeybird;
 
 import com.google.gdata.data.analytics.DataEntry;
 
+/**
+ * A metric that operates on long values.
+ */
 public class LongMetric extends Metric<Long>
 {
-    public LongMetric (String name)
+    protected LongMetric (String name)
     {
         super(name);
     }
 
+    /**
+     * Allows through any value greater than the given value.
+     */
     public Filter gt (int value)
     {
         return gt((long)value);
     }
 
+    /**
+     * Allows through any value less than the given value.
+     */
     public Filter lt (int value)
     {
         return lt((long)value);
     }
 
+    /**
+     * Allows through any value greater than or equal to the given value.
+     */
     public Filter gte (int value)
     {
         return gte((long)value);
     }
 
+    /**
+     * Allows through any value less than or equal to the given value.
+     */
     public Filter lte (int value)
     {
         return lte((long)value);
     }
 
+    /**
+     * Allows through any value equal to the given value.
+     */
     public Filter eq (int value)
     {
         return eq((long)value);
     }
 
+    /**
+     * Allows through any value not equal to the given value.
+     */
     public Filter neq (int value)
     {
         return neq((long)value);

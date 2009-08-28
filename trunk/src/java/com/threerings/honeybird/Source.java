@@ -20,8 +20,16 @@ package com.threerings.honeybird;
 
 import com.google.gdata.data.analytics.DataEntry;
 
+/**
+ * A basic data source from the analytics API.
+ *
+ * @param <V> - the type of value for this source.
+ */
 public interface Source<V>
 {
+    /**
+     * Returns the name for this source as used in queries eg <code>ga:pagePath</code>.
+     */
     String getName();
 
     /**
@@ -29,5 +37,8 @@ public interface Source<V>
      */
     V extractValue(DataEntry entry);
 
+    /**
+     * Returns true if this source is a dimension, false if it's a metric.
+     */
     boolean isDimension();
 }
