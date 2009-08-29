@@ -3,7 +3,6 @@
   <!-- project metadata -->
   <property name="lib.name"         value="honeybird"/>
   <property name="doc.packages"     value="com.threerings.honeybird.*"/>
-  <property name="doc.overview"     value="com/threerings/honeybird/overview.html"/>
   <property name="copyright.holder" value="Three Rings Design, Inc."/>
 
   <!-- various directories used when building things -->
@@ -73,13 +72,12 @@
   <target name="javadoc" depends="prepare,compute-builds"
           description="Generates javadoc documentation.">
     <javadoc windowtitle="${lib.name} API" doctitle="${lib.name} API"
-             overview="${src.dir}/${doc.overview}" destdir="${javadoc.dir}"
-             additionalparam="-breakiterator"
-             link="http://samskivert.com/code/samskivert/samskivert/docs/api/">
+             destdir="${javadoc.dir}" additionalparam="-breakiterator">
       <packageset dir="${src.dir}"/>
       <bottom>Copyright &#169; 2009 ${copyright.holder}. All Rights Reserved.</bottom>
       <classpath refid="classpath"/>
       <link href="http://java.sun.com/j2se/1.5/docs/api/"/>
+      <link href="http://code.google.com/apis/gdata/javadoc/"/>
     </javadoc>
   </target>
 
