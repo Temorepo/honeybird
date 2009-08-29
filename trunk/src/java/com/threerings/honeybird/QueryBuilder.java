@@ -28,6 +28,7 @@ import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gdata.client.Query;
 import com.google.gdata.client.analytics.AnalyticsService;
 import com.google.gdata.client.analytics.DataQuery;
 import com.google.gdata.data.analytics.DataFeed;
@@ -146,6 +147,26 @@ public class QueryBuilder
     }
 
     /**
+     * Sets the index in the full set of results to start with for this particular query. Results
+     * start with index 1, and if no start index is supplied, the query goes from 1.
+     */
+    public QueryBuilder startIndex (int index)
+    {
+        _startIndex = index;
+        return this;
+    }
+
+    /**
+     * Sets the maximum number of results to return from a single query. The default is 1,000, and
+     * no more than 10,000 can be returned in a request.
+     */
+    public QueryBuilder maxResults (int max)
+    {
+        _maxResults = max;
+        return this;
+    }
+
+    /**
      * Returns the results for the query as it currently stands.
      */
     public QueryResults query ()
@@ -169,6 +190,8 @@ public class QueryBuilder
         DateFormat queryDayFormat = new SimpleDateFormat("yyyy-MM-dd");
         _query.setStartDate(queryDayFormat.format(_start));
         _query.setEndDate(queryDayFormat.format(_end));
+        _query.setStartIndex(_startIndex);
+        _query.setMaxResults(_maxResults);
     }
 
     protected void addSource (Source<?> source)
@@ -179,6 +202,8 @@ public class QueryBuilder
             _metrics.add(source.getName());
         }
     }
+
+    protected int _startIndex = Query.UNDEFINED, _maxResults = Query.UNDEFINED;
 
     protected Filter _filter;
 
