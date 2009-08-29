@@ -18,8 +18,9 @@
 */
 package com.threerings.honeybird;
 
-import java.util.HashSet;
 import java.util.Set;
+
+import com.google.common.collect.Sets;
 
 /**
  * Filters a specific source using a fixed operator and restriction. These are created
@@ -46,7 +47,7 @@ public class FilterExpression
 
     public Set<Source<?>> getSources ()
     {
-        Set<Source<?>> sources = new HashSet<Source<?>>();
+        Set<Source<?>> sources =  Sets.newHashSet();
         sources.add(toFilter);
         return sources;
     }
