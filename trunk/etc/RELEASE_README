@@ -1,0 +1,6 @@
+This is honeybird, a fluent query library for use with the Google Analytics API.  Combined with the
+google-collect, gdata-core and gdata-analytics libraries from
+http://code.google.com/p/gdata-java-client/downloads/list, it can make queries to retrieve data from
+your Google analytics account.
+
+See http://code.google.com/p/honeybird/ for examples, source and other helpful information.
