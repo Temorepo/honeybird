@@ -114,4 +114,18 @@
       <copy file="etc/honeybird.properties" todir="${example.classes.dir}"/>
       <java classname="example.HoneybirdExample" classpathref="classpath" fork="true"/>
   </target>
+
+  <!-- builds a release zip file -->
+  <target name="release" depends="javadoc,dist" description="Generates a zip containing the jar, docs, and license.">
+      <property name="release.name" value="${lib.name}-${version}"/>
+      <property name="release.dir" value="${deploy.dir}/${release.name}"/>
+      <mkdir dir="${release.dir}"/>
+      <copy todir="${release.dir}">
+          <fileset dir="${deploy.dir}" includes="docs/**/*"/>
+          <fileset dir="." includes="LICENSE,RELEASE_NOTES"/>
+      </copy>
+      <copy file="${deploy.dir}/${lib.name}.jar" tofile="${release.dir}/${release.name}.jar"/>
+      <copy file="etc/RELEASE_README" tofile="${release.dir}/README"/>
+      <zip destfile="${deploy.dir}/${release.name}.zip" basedir="${deploy.dir}" includes="${release.name}/**"/>
+  </target>
 </project>
