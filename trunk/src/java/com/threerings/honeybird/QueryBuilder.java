@@ -22,6 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -129,12 +130,37 @@ public class QueryBuilder
     }
 
     /**
+     * Sets the start day for the query to the specified day in the specified month and year.
+     *
+     * @param year a regular year value, like 1900
+     * @param month a 0-based month value, like {@link Calendar#JANUARY}
+     * @param day a regular day of the month value, like 31
+     */
+    public QueryBuilder from (int year, int month, int day)
+    {
+        return from(makeDate(year, month, day));
+    }
+
+    /**
      * Sets the end day for the query.
      */
     public QueryBuilder to (Date date)
     {
         _end = date;
         return this;
+    }
+
+
+    /**
+     * Sets the end day for the query to the specified day in the specified month and year.
+     *
+     * @param year a regular year value, like 1900
+     * @param month a 0-based month value, like {@link Calendar#JANUARY}
+     * @param day a regular day of the month value, like 31
+     */
+    public QueryBuilder to (int year, int month, int day)
+    {
+        return to(makeDate(year, month, day));
     }
 
     /**
@@ -144,6 +170,18 @@ public class QueryBuilder
     {
         _start = _end = date;
         return this;
+    }
+
+    /**
+     * Sets the query to consist only of the specified day in the specified month and year.
+     *
+     * @param year a regular year value, like 1900
+     * @param month a 0-based month value, like {@link Calendar#JANUARY}
+     * @param day a regular day of the month value, like 31
+     */
+    public QueryBuilder on (int year, int month, int day)
+    {
+        return on(makeDate(year, month, day));
     }
 
     /**
@@ -192,6 +230,13 @@ public class QueryBuilder
         _query.setEndDate(queryDayFormat.format(_end));
         _query.setStartIndex(_startIndex);
         _query.setMaxResults(_maxResults);
+    }
+
+    protected Date makeDate (int year, int month, int day)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.set(year, month, day);
+        return cal.getTime();
     }
 
     protected void addSource (Source<?> source)

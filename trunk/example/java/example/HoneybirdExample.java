@@ -1,6 +1,7 @@
 package example;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Properties;
 
 import com.google.gdata.client.analytics.AnalyticsService;
@@ -28,6 +29,7 @@ public class HoneybirdExample
         // Execute a query
         QueryResults results = new QueryBuilder(id, service).
             filter(VISITOR_TYPE.isNew()).
+            on(2009, Calendar.AUGUST, 28).
             add(PAGE_PATH).
             sortDescending(PAGEVIEWS).maxResults(10).query();
 
