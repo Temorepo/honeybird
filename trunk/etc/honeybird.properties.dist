@@ -1,0 +1,4 @@
+# Properties for configuring honeybird.  All must be set to run the example.
+username = <analytics username>
+password = <analytics password>
+profileId = <analytics profile for the site to check>
