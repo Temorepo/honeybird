@@ -83,6 +83,26 @@ public class QueryBuilderTest
         assertEquals(formatter.format(cal.getTime()), builder._query.getEndDate());
     }
 
-    protected final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+    @Test
+    public void testSettingIntDates ()
+    {
+        QueryBuilder builder = new QueryBuilder(null, null);
 
+        // Using on sets start and end
+        builder.on(2009, Calendar.SEPTEMBER, 15).fillInQuery();
+        assertEquals("2009-09-15", builder._query.getStartDate());
+        assertEquals("2009-09-15", builder._query.getEndDate());
+
+        // Using from sets start only
+        builder.from(2008, Calendar.JULY, 15).fillInQuery();
+        assertEquals("2008-07-15", builder._query.getStartDate());
+        assertEquals("2009-09-15", builder._query.getEndDate());
+
+        // Using to sets end only
+        builder.to(2010, 1, 20).fillInQuery();
+        assertEquals("2008-07-15", builder._query.getStartDate());
+        assertEquals("2010-02-20", builder._query.getEndDate());
+    }
+
+    protected final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 }
