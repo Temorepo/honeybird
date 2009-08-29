@@ -76,5 +76,6 @@ def write_java(classname, bodywriter):
     bodywriter(out)
     out.write("}\n")
 
-write_java("Metrics", generate_metrics)
-write_java("Dimensions", generate_dimensions)
+if __name__ == "__main__":
+    write_java("Metrics", generate_metrics)
+    write_java("Dimensions", generate_dimensions)
