@@ -8,5 +8,5 @@
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-core.jar" sourcepath="/SRCDIR/gdata-1.36"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-analytics.jar" sourcepath="/SRCDIR/gdata-1.36/java/src"/>
 	<classpathentry kind="var" path="EXT_LIBS_DIR/google-collect.jar"/>
-	<classpathentry kind="output" path="dist/classes"/>
+	<classpathentry kind="output" path="dist/src-classes"/>
 </classpath>
