@@ -41,21 +41,21 @@ public class QueryResultsTest implements Sources
         DataFeed parsed = parser.parse(new ParseSource(new InputStreamReader(is, Charsets.UTF_8)),
             props, DataFeed.class);
         QueryResults results = new QueryResults(parsed);
-        assertEquals(101535, results.getAggregate(BOUNCES));
-        assertEquals(136540, results.getAggregate(VISITS));
-        assertEquals(0, results.getCondfidenceInterval(BOUNCES));
-        Map<String, Integer> visits = Maps.newHashMap();
-        Map<String, Integer> bounces = Maps.newHashMap();
-        visits.put("blogger.com", 68140);
-        visits.put("google.com", 29666);
-        visits.put("stumbleupon.com", 4012);
-        visits.put("google.co.uk", 2968);
-        visits.put("google.co.in", 2793);
-        bounces.put("blogger.com", 61095);
-        bounces.put("google.com", 14979);
-        bounces.put("stumbleupon.com", 848);
-        bounces.put("google.co.uk", 2084);
-        bounces.put("google.co.in", 1891);
+        assertEquals(101535, results.getAggregate(BOUNCES), 0.0);
+        assertEquals(136540, results.getAggregate(VISITS), 0.0);
+        assertEquals(0, results.getCondfidenceInterval(BOUNCES), 0.0);
+        Map<String, Long> visits = Maps.newHashMap();
+        Map<String, Long> bounces = Maps.newHashMap();
+        visits.put("blogger.com", 68140l);
+        visits.put("google.com", 29666l);
+        visits.put("stumbleupon.com", 4012l);
+        visits.put("google.co.uk", 2968l);
+        visits.put("google.co.in", 2793l);
+        bounces.put("blogger.com", 61095l);
+        bounces.put("google.com", 14979l);
+        bounces.put("stumbleupon.com", 848l);
+        bounces.put("google.co.uk", 2084l);
+        bounces.put("google.co.in", 1891l);
         for (QueryResult result : results) {
             assertEquals("referral", result.getValue(MEDIUM));
             assertEquals(visits.remove(result.getValue(SOURCE)), result.getValue(VISITS));

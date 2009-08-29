@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
-	<classpathentry kind="src" path="test/java"/>
+	<classpathentry kind="src" output="dist/test-classes" path="test/java"/>
+	<classpathentry kind="src" output="dist/example-classes" path="example/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-core.jar" sourcepath="/SRCDIR/gdata-1.36"/>

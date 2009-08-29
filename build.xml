@@ -7,14 +7,20 @@
 
   <!-- various directories used when building things -->
   <property name="src.dir"     value="src/java"/>
+  <property name="example.dir"     value="example/java"/>
+  <property name="test.dir"     value="test/java"/>
   <property name="deploy.dir"  value="dist"/>
-  <property name="classes.dir" value="${deploy.dir}/classes"/>
+  <property name="src.classes.dir" value="${deploy.dir}/src-classes"/>
+  <property name="example.classes.dir" value="${deploy.dir}/example-classes"/>
+  <property name="test.classes.dir" value="${deploy.dir}/test-classes"/>
   <property name="javadoc.dir" value="${deploy.dir}/docs"/>
   <property name="libs.dir"    value="lib"/>
 
   <!-- declare our classpath -->
   <path id="classpath">
-    <pathelement location="${classes.dir}"/>
+    <pathelement location="${src.classes.dir}"/>
+    <pathelement location="${example.classes.dir}"/>
+    <pathelement location="${test.classes.dir}"/>
     <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
   </path>
 
@@ -26,28 +32,23 @@
     <tstamp><format property="year" pattern="yyyy" /></tstamp>
     <mkdir dir="${deploy.dir}"/>
     <mkdir dir="${deploy.dir}/lib"/>
-    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${src.classes.dir}"/>
+    <mkdir dir="${test.classes.dir}"/>
+    <mkdir dir="${example.classes.dir}"/>
     <mkdir dir="${javadoc.dir}"/>
     <copy todir="${deploy.dir}/lib" flatten="true">
       <fileset refid="${lib.name}.libs"/>
     </copy>
-  </target>
-
-  <!-- determines which optional packages should be built -->
-  <target name="compute-builds">
-    <!-- check to see which packages are available -->
-    <available property="junit.present" classpathref="classpath" classname="junit.framework.Test"/>
-    <echo level="info">JUnit: ${junit.present}</echo>
-
-    <!-- combines package availability into build controls -->
-    <condition property="build.tests">
-      <and><isset property="junit.present"/></and>
-    </condition>
+    <copy todir="${test.classes.dir}">
+        <fileset dir="${test.dir}" includes="**/*xml"/>
+    </copy>
   </target>
 
   <!-- cleans out the intermediate build files -->
   <target name="clean" description="Cleans out build results.">
-    <delete dir="${classes.dir}"/>
+    <delete dir="${src.classes.dir}"/>
+    <delete dir="${example.classes.dir}"/>
+    <delete dir="${test.classes.dir}"/>
     <delete dir="${deploy.dir}/docs"/>
     <delete failonerror="false"><fileset dir="${deploy.dir}" includes="*.jar"/></delete>
   </target>
@@ -58,19 +59,26 @@
   </target>
 
   <!-- build the java class files -->
-  <target name="compile" depends="prepare,compute-builds" description="Compiles the code.">
-    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeAntRuntime="false"
-           debug="on" optimize="${build.optimize}" source="1.5" target="1.5" encoding="utf-8">
-      <classpath refid="classpath"/>
-      <exclude name="com/samskivert/depot/tests/**" unless="build.tests"/>
-      <compilerarg value="-Xlint"/>
-      <compilerarg value="-Xlint:-serial"/>
-    </javac>
+  <macrodef name="compilejava">
+      <attribute name="srcdir"/>
+      <attribute name="destdir"/>
+      <sequential>
+          <javac srcdir="@{srcdir}" destdir="@{destdir}" includeAntRuntime="false"
+              debug="on" optimize="${build.optimize}" source="1.5" target="1.5" encoding="utf-8">
+              <classpath refid="classpath"/>
+              <compilerarg value="-Xlint"/>
+              <compilerarg value="-Xlint:-serial"/>
+          </javac>
+      </sequential>
+  </macrodef>
+  <target name="compile" depends="prepare" description="Compiles the code.">
+      <compilejava srcdir="${src.dir}" destdir="${src.classes.dir}"/>
+      <compilejava srcdir="${example.dir}" destdir="${example.classes.dir}"/>
+      <compilejava srcdir="${test.dir}" destdir="${test.classes.dir}"/>
   </target>
 
   <!-- build the javadoc documentation -->
-  <target name="javadoc" depends="prepare,compute-builds"
-          description="Generates javadoc documentation.">
+  <target name="javadoc" depends="prepare" description="Generates javadoc documentation.">
     <javadoc windowtitle="${lib.name} API" doctitle="${lib.name} API"
              destdir="${javadoc.dir}" additionalparam="-breakiterator">
       <packageset dir="${src.dir}"/>
@@ -82,12 +90,28 @@
   </target>
 
   <!-- a target for rebuilding everything -->
-  <target name="all" depends="clean,prepare,compile,javadoc,dist"
-          description="Cleans and rebuilds everything including documentation."/>
+  <target name="all" depends="clean,javadoc,test,dist"
+      description="Cleans and rebuilds everything including documentation."/>
+
+  <target name="test" depends="compile">
+      <junit haltonfailure="yes">
+          <classpath refid="classpath"/>
+          <formatter type="plain" usefile="false"/>
+          <batchtest>
+              <fileset dir="${test.dir}">
+                  <include name="**/*Test*.java"/>
+              </fileset>
+          </batchtest>
+      </junit>
+  </target>
 
   <!-- builds our distribution jar file -->
-  <target name="dist" depends="prepare,compile"
-      description="Compiles the code and builds our jar file.">
-      <jar destfile="${deploy.dir}/${lib.name}.jar" basedir="${classes.dir}"/>
+  <target name="dist" depends="compile" description="Compiles the code and builds our jar file.">
+      <jar destfile="${deploy.dir}/${lib.name}.jar" basedir="${src.classes.dir}"/>
+  </target>
+
+  <target name="example" depends="prepare,compile" description="Runs the example code">
+      <copy file="etc/honeybird.properties" todir="${example.classes.dir}"/>
+      <java classname="example.HoneybirdExample" classpathref="classpath" fork="true"/>
   </target>
 </project>
