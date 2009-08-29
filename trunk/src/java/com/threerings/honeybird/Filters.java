@@ -18,9 +18,9 @@
 */
 package com.threerings.honeybird;
 
-import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
 import com.google.gdata.util.common.base.Joiner;
 
 /**
@@ -63,7 +63,7 @@ public class Filters
 
         public Set<Source<?>> getSources ()
         {
-            Set<Source<?>> sources = new HashSet<Source<?>>();
+            Set<Source<?>> sources = Sets.newHashSet();
             for (Filter filter : filters) {
                 sources.addAll(filter.getSources());
             }

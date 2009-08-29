@@ -24,6 +24,28 @@ public class QueryBuilderTest
     }
 
     @Test
+    public void testSort ()
+    {
+        QueryBuilder builder = new QueryBuilder(null, null);
+        builder.sort(PAGE_PATH, PAGEVIEWS);
+        builder.sort(PAGEVIEWS, PAGE_PATH); // adding it again does nothing
+        builder.fillInQuery();
+        assertEquals(PAGE_PATH.getName() + "," + PAGEVIEWS.getName(), builder._query.getSort());
+        assertTrue(builder._query.getDimensions().contains(PAGE_PATH.getName()));
+        assertTrue(builder._query.getMetrics().contains(PAGEVIEWS.getName()));
+    }
+
+    @Test
+    public void testSortDescending ()
+    {
+        QueryBuilder builder = new QueryBuilder(null, null);
+        builder.sortDescending(PAGE_TITLE);
+        builder.sort(VISITS);
+        builder.fillInQuery();
+        assertEquals("-" + PAGE_TITLE.getName() + "," + VISITS.getName(), builder._query.getSort());
+    }
+
+    @Test
     public void testSettingDates ()
     {
         QueryBuilder builder = new QueryBuilder(null, null);
