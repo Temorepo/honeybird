@@ -7,6 +7,8 @@ import java.util.Date;
 
 import org.junit.Test;
 
+import com.google.gdata.client.Query;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -17,22 +19,27 @@ public class QueryBuilderTest
     public void testProperSources ()
     {
         QueryBuilder builder = new QueryBuilder(null, null).add(PAGEVIEWS);
-        builder.filter(VISITOR_TYPE.isNew().and(PAGE_PATH.contains("/index.xhtml")));
+        builder.filter(VISITOR_TYPE.isNew().and(PAGE_PATH.contains("/index.xhtml"))).startIndex(15);
+
         builder.fillInQuery();
         assertTrue(builder._query.getDimensions().contains(PAGE_PATH.getName()));
-        assertTrue(builder._query.getMetrics().contains(PAGEVIEWS.getName()));
+        assertEquals(PAGEVIEWS.getName(), builder._query.getMetrics());
+        assertEquals("", builder._query.getSort());
+        assertEquals(15, builder._query.getStartIndex());
     }
 
     @Test
     public void testSort ()
     {
         QueryBuilder builder = new QueryBuilder(null, null);
-        builder.sort(PAGE_PATH, PAGEVIEWS);
-        builder.sort(PAGEVIEWS, PAGE_PATH); // adding it again does nothing
+        builder.sort(PAGE_PATH, PAGEVIEWS).sort(PAGEVIEWS, PAGE_PATH); // adding it again is a noop
+        builder.maxResults(7500);
         builder.fillInQuery();
         assertEquals(PAGE_PATH.getName() + "," + PAGEVIEWS.getName(), builder._query.getSort());
         assertTrue(builder._query.getDimensions().contains(PAGE_PATH.getName()));
         assertTrue(builder._query.getMetrics().contains(PAGEVIEWS.getName()));
+        assertEquals(Query.UNDEFINED, builder._query.getStartIndex());
+        assertEquals(7500, builder._query.getMaxResults());
     }
 
     @Test
