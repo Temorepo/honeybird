@@ -18,6 +18,7 @@
 */
 package com.threerings.honeybird;
 
+import com.google.common.base.Preconditions;
 import com.google.gdata.data.analytics.DataEntry;
 
 /**
@@ -40,9 +41,8 @@ public class QueryResult
     public <V> V getValue (Source<V> metric)
     {
         V result = metric.extractValue(_entry);
-        if (result == null) {
-            throw new IllegalArgumentException(metric.getName() + " wasn't present in the result");
-        }
+        Preconditions.checkArgument(result != null, metric.getName()
+            + " wasn't present in the result");
         return result;
     }
 

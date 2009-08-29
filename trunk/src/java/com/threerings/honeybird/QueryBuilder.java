@@ -23,9 +23,9 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.Sets;
 import com.google.gdata.client.analytics.AnalyticsService;
 import com.google.gdata.client.analytics.DataQuery;
 import com.google.gdata.data.analytics.DataFeed;
@@ -150,9 +150,9 @@ public class QueryBuilder
 
     protected final DataQuery _query;
 
-    protected final Set<String> _dimensions = new HashSet<String>();
+    protected final Set<String> _dimensions = Sets.newHashSet();
 
-    protected final Set<String> _metrics = new HashSet<String>();
+    protected final Set<String> _metrics = Sets.newHashSet();
 
     protected final AnalyticsService _service;
 }
