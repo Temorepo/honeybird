@@ -89,5 +89,5 @@ public class QueryResults implements Iterable<QueryResult>
         };
     }
 
-    protected final DataFeed _result;
+    public final DataFeed _result;
 }

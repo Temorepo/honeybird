@@ -61,7 +61,7 @@ public interface Metrics
      * client libraries have various ways of representing this value, such as a double, float, long,
      * or string.
      */
-    public static final LongMetric TIME_ON_PAGE = new LongMetric("ga:timeOnPage");
+    public static final SecondsMetric TIME_ON_PAGE = new SecondsMetric("ga:timeOnPage");
 
     /**
      * The total duration of visitor sessions over the selected dimension. For example, suppose you
@@ -74,7 +74,7 @@ public interface Metrics
      * string, with the value represented in total seconds. Different client libraries have various
      * ways of representing this value, such as a double, float, long, or string.
      */
-    public static final LongMetric TIME_ON_SITE = new LongMetric("ga:timeOnSite");
+    public static final SecondsMetric TIME_ON_SITE = new SecondsMetric("ga:timeOnSite");
 
     /**
      * Total number of visitors to your site for the requested time period. When requesting this
@@ -102,24 +102,24 @@ public interface Metrics
      * Derived cost for the advertising campaign. The currency for this value is based on the
      * currency that you set in your AdWords account.
      */
-    public static final DoubleMetric AD_COST = new DoubleMetric("ga:adCost");
+    public static final CurrencyMetric AD_COST = new CurrencyMetric("ga:adCost");
 
     /**
      * Cost to advertiser per click.
      */
-    public static final DoubleMetric CPC = new DoubleMetric("ga:CPC");
+    public static final CurrencyMetric CPC = new CurrencyMetric("ga:CPC");
 
     /**
      * Cost per thousand impressions.
      */
-    public static final DoubleMetric CPM = new DoubleMetric("ga:CPM");
+    public static final CurrencyMetric CPM = new CurrencyMetric("ga:CPM");
 
     /**
      * Click-through-rate for your ad. This is equal to the number of clicks divided by the number
      * of impressions for your ad (e.g. how many times users clicked on one of your ads where that
      * ad appeared).
      */
-    public static final DoubleMetric CTR = new DoubleMetric("ga:CTR");
+    public static final PercentageMetric CTR = new PercentageMetric("ga:CTR");
 
     /**
      * Total number of campaign impressions.
@@ -137,7 +137,7 @@ public interface Metrics
      * href="http://code.google.com/apis/analytics/docs/gaJS/gaJSApiEcommerce.html"><code>_addItem()</code></a>
      * for additional information.
      */
-    public static final DoubleMetric ITEM_REVENUE = new DoubleMetric("ga:itemRevenue");
+    public static final CurrencyMetric ITEM_REVENUE = new CurrencyMetric("ga:itemRevenue");
 
     /**
      * The total number of items purchased. For example, if users purchase 2 frisbees and 5 tennis
@@ -151,7 +151,7 @@ public interface Metrics
      * href="http://code.google.com/apis/analytics/docs/gaJS/gaJSApiEcommerce.html#_gat.GA_Tracker_._addTrans"><code>_addTrans()</code></a>
      * in the tracking API reference for additional information.
      */
-    public static final DoubleMetric TRANSACTION_REVENUE = new DoubleMetric("ga:transactionRevenue");
+    public static final CurrencyMetric TRANSACTION_REVENUE = new CurrencyMetric("ga:transactionRevenue");
 
     /**
      * The total number of transactions.
@@ -161,12 +161,12 @@ public interface Metrics
     /**
      * The total cost of shipping.
      */
-    public static final LongMetric TRANSACTION_SHIPPING = new LongMetric("ga:transactionShipping");
+    public static final CurrencyMetric TRANSACTION_SHIPPING = new CurrencyMetric("ga:transactionShipping");
 
     /**
      * The total amount of tax.
      */
-    public static final DoubleMetric TRANSACTION_TAX = new DoubleMetric("ga:transactionTax");
+    public static final CurrencyMetric TRANSACTION_TAX = new CurrencyMetric("ga:transactionTax");
 
     /**
      * The number of product sets purchased. For example, if users purchase 2 frisbees and 5 tennis
@@ -183,7 +183,7 @@ public interface Metrics
     /**
      * The visit duration to your site where a use of your internal search feature occurred.
      */
-    public static final LongMetric SEARCH_DURATION = new LongMetric("ga:searchDuration");
+    public static final SecondsMetric SEARCH_DURATION = new SecondsMetric("ga:searchDuration");
 
     /**
      * The number of exits on your site that occurred following a search result from your internal
@@ -263,26 +263,26 @@ public interface Metrics
     /**
      * The total numeric value for the requested goal.
      */
-    public static final LongMetric GOAL1_VALUE = new LongMetric("ga:goal1Value");
+    public static final CurrencyMetric GOAL1_VALUE = new CurrencyMetric("ga:goal1Value");
 
     /**
      * The total numeric value for the requested goal.
      */
-    public static final LongMetric GOAL2_VALUE = new LongMetric("ga:goal2Value");
+    public static final CurrencyMetric GOAL2_VALUE = new CurrencyMetric("ga:goal2Value");
 
     /**
      * The total numeric value for the requested goal.
      */
-    public static final LongMetric GOAL3_VALUE = new LongMetric("ga:goal3Value");
+    public static final CurrencyMetric GOAL3_VALUE = new CurrencyMetric("ga:goal3Value");
 
     /**
      * The total numeric value for the requested goal.
      */
-    public static final LongMetric GOAL4_VALUE = new LongMetric("ga:goal4Value");
+    public static final CurrencyMetric GOAL4_VALUE = new CurrencyMetric("ga:goal4Value");
 
     /**
      * The total value for all goals defined for your profile.
      */
-    public static final LongMetric GOAL_VALUE_ALL = new LongMetric("ga:goalValueAll");
+    public static final CurrencyMetric GOAL_VALUE_ALL = new CurrencyMetric("ga:goalValueAll");
 
 }
