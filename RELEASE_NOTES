@@ -1,3 +1,9 @@
+0.1.1
+=====
+2009-09-02
+* Fix Metric types for timeOnPage, adCost, CPC, CPM, CTR, itemRevenue, transactionRevenue,
+  transactionTax, searchDuration and the goalValues
+
 0.1
 =====
 2009-08-29

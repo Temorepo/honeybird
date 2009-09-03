@@ -42,7 +42,13 @@ wrapper = textwrap.TextWrapper(width=100, initial_indent='     * ', subsequent_i
         break_long_words=False)
 def generate_metrics(out):
     for source, descr in sources["Metric"]:
-        if metric_types[source] == "l":
+        if metric_types[source] == "p":
+            javatype = "PercentMetric"
+        elif metric_types[source] == "s":
+            javatype = "SecondsMetric"
+        elif metric_types[source] == "c":
+            javatype = "CurrencyMetric"
+        elif metric_types[source] == "l":
             javatype = "LongMetric"
         else:
             javatype = "DoubleMetric"
