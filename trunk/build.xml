@@ -124,6 +124,9 @@
           <fileset dir="${deploy.dir}" includes="docs/**/*"/>
           <fileset dir="." includes="LICENSE,RELEASE_NOTES"/>
       </copy>
+      <copy todir="${release.dir}/src">
+          <fileset dir="${src.dir}" includes="**/*"/>
+      </copy>
       <copy file="${deploy.dir}/${lib.name}.jar" tofile="${release.dir}/${release.name}.jar"/>
       <copy file="etc/RELEASE_README" tofile="${release.dir}/README"/>
       <zip destfile="${deploy.dir}/${release.name}.zip" basedir="${deploy.dir}" includes="${release.name}/**"/>
