@@ -358,4 +358,18 @@ public interface Dimensions
      */
     public static final Dimension SEARCH_USED = new Dimension("ga:searchUsed");
 
+    /**
+     * The name of an event category.
+     */
+    public static final Dimension EVENT_CATEGORY = new Dimension("ga:eventCategory");
+
+    /**
+     * The name of an event action.
+     */
+    public static final Dimension EVENT_ACTION = new Dimension("ga:eventAction");
+
+    /**
+     * The name of an event label.
+     */
+    public static final Dimension EVENT_LABEL = new Dimension("ga:eventLabel");
 }
