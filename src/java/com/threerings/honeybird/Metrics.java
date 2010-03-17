@@ -285,4 +285,18 @@ public interface Metrics
      */
     public static final CurrencyMetric GOAL_VALUE_ALL = new CurrencyMetric("ga:goalValueAll");
 
+    /**
+     * The total number of events recorded for your profile.
+     */
+    public static final LongMetric TOTAL_EVENTS = new LongMetric("ga:totalEvents");
+
+    /**
+     * The total number of unique events recorded for your profile.
+     */
+    public static final LongMetric UNIQUE_EVENTS = new LongMetric("ga:uniqueEvents");
+
+    /**
+     * The total value of events recorded for your profile.
+     */
+    public static final LongMetric EVENT_VALUE = new LongMetric("ga:eventValue");
 }
