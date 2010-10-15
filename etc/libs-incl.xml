@@ -4,7 +4,7 @@
   <fileset dir="${libs.dir}" id="honeybird.libs">
       <include name="gdata-analytics.jar"/>
       <include name="gdata-core.jar"/>
-      <include name="google-collect.jar"/>
+      <include name="guava.jar"/>
       <include name="junit4.jar"/>
   </fileset>
 </project>
