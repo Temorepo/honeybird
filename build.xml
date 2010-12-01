@@ -68,6 +68,7 @@
               <classpath refid="classpath"/>
               <compilerarg value="-Xlint"/>
               <compilerarg value="-Xlint:-serial"/>
+              <compilerarg value="-Xlint:-path"/>
           </javac>
       </sequential>
   </macrodef>
