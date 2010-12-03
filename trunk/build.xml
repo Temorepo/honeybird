@@ -1,135 +1,98 @@
-<?xml version="1.0"?>
-<project name="honeybird" default="compile" basedir=".">
-  <!-- project metadata -->
-  <property name="lib.name"         value="honeybird"/>
-  <property name="doc.packages"     value="com.threerings.honeybird.*"/>
-  <property name="copyright.holder" value="Three Rings Design, Inc."/>
+<?xml version="1.0" standalone="yes"?>
+<project name="honeybird" default="compile" basedir="." xmlns:artifact="urn:maven-artifact-ant">
+  <property name="deploy.dir"   value="dist"/>
+  <property name="src.dir"      value="src/main/java"/>
+  <property name="tsrc.dir"     value="src/test/java"/>
+  <property name="classes.dir"  value="${deploy.dir}/classes"/>
+  <property name="tclasses.dir" value="${deploy.dir}/test-classes"/>
 
-  <!-- various directories used when building things -->
-  <property name="src.dir"     value="src/java"/>
-  <property name="example.dir"     value="example/java"/>
-  <property name="test.dir"     value="test/java"/>
-  <property name="deploy.dir"  value="dist"/>
-  <property name="src.classes.dir" value="${deploy.dir}/src-classes"/>
-  <property name="example.classes.dir" value="${deploy.dir}/example-classes"/>
-  <property name="test.classes.dir" value="${deploy.dir}/test-classes"/>
-  <property name="javadoc.dir" value="${deploy.dir}/docs"/>
-  <property name="libs.dir"    value="lib"/>
+  <property name="maven-ant.vers" value="2.1.1"/>
+  <property name="maven-ant.dir" value="${user.home}/.m2/ant-support"/>
+  <property name="maven-ant.jar" value="${maven-ant.dir}/maven-ant-tasks-${maven-ant.vers}.jar"/>
+  <property name="maven-ant.url"
+            value="http://mirrors.ibiblio.org/pub/mirrors/apache/maven/binaries"/>
+  <condition property="maven-ant.exists"><available file="${maven-ant.jar}"/></condition>
+  <target name="-download-maven-ant" unless="maven-ant.exists">
+    <mkdir dir="${maven-ant.dir}"/>
+    <get src="${maven-ant.url}/maven-ant-tasks-${maven-ant.vers}.jar"
+         dest="${maven-ant.jar}" usetimestamp="true"/>
+  </target>
 
-  <!-- declare our classpath -->
-  <path id="classpath">
-    <pathelement location="${src.classes.dir}"/>
-    <pathelement location="${example.classes.dir}"/>
-    <pathelement location="${test.classes.dir}"/>
-    <fileset dir="${deploy.dir}/lib" includes="*.jar"/>
-  </path>
+  <target name="-init-maven-ant" depends="-download-maven-ant">
+    <taskdef resource="org/apache/maven/artifact/ant/antlib.xml"
+             uri="urn:maven-artifact-ant" classpath="${maven-ant.jar}"/>
+    <artifact:pom id="pom" file="pom.xml"/>
+    <artifact:dependencies pathId="compile.classpath" pomRefId="pom" useScope="compile"/>
+    <artifact:dependencies pathId="testlibs.classpath" pomRefId="pom" useScope="test"/>
+    <path id="test.classpath">
+      <path refid="testlibs.classpath"/>
+      <pathelement location="${classes.dir}"/>
+      <pathelement location="${tclasses.dir}"/>
+    </path>
+  </target>
 
-  <!-- our dependencies are in a separate file so that we can integrate into OOO builds -->
-  <import file="etc/libs-incl.xml"/>
-
-  <!-- prepares the application directories -->
-  <target name="prepare">
-    <tstamp><format property="year" pattern="yyyy" /></tstamp>
+  <target name="-prepare" depends="-init-maven-ant">
     <mkdir dir="${deploy.dir}"/>
-    <mkdir dir="${deploy.dir}/lib"/>
-    <mkdir dir="${src.classes.dir}"/>
-    <mkdir dir="${test.classes.dir}"/>
-    <mkdir dir="${example.classes.dir}"/>
-    <mkdir dir="${javadoc.dir}"/>
-    <copy todir="${deploy.dir}/lib" flatten="true">
-      <fileset refid="${lib.name}.libs"/>
-    </copy>
-    <copy todir="${test.classes.dir}">
-        <fileset dir="${test.dir}" includes="**/*xml"/>
-    </copy>
   </target>
 
-  <!-- cleans out the intermediate build files -->
-  <target name="clean" description="Cleans out build results.">
-    <delete dir="${src.classes.dir}"/>
-    <delete dir="${example.classes.dir}"/>
-    <delete dir="${test.classes.dir}"/>
-    <delete dir="${deploy.dir}/docs"/>
-    <delete failonerror="false"><fileset dir="${deploy.dir}" includes="*.jar"/></delete>
+  <target name="clean" description="Cleans out compilation results.">
+    <delete dir="${classes.dir}"/>
   </target>
 
-  <!-- wipes the entire build directory clean -->
-  <target name="distclean" description="Completely removes build result directory.">
+  <target name="distclean" description="Scorched earth clean.">
     <delete dir="${deploy.dir}"/>
   </target>
 
-  <!-- build the java class files -->
-  <macrodef name="compilejava">
-      <attribute name="srcdir"/>
-      <attribute name="destdir"/>
-      <sequential>
-          <javac srcdir="@{srcdir}" destdir="@{destdir}" includeAntRuntime="false"
-              debug="on" optimize="${build.optimize}" source="1.5" target="1.5" encoding="utf-8">
-              <classpath refid="classpath"/>
-              <compilerarg value="-Xlint"/>
-              <compilerarg value="-Xlint:-serial"/>
-              <compilerarg value="-Xlint:-path"/>
-          </javac>
-      </sequential>
-  </macrodef>
-  <target name="compile" depends="prepare" description="Compiles the code.">
-      <compilejava srcdir="${src.dir}" destdir="${src.classes.dir}"/>
-      <compilejava srcdir="${example.dir}" destdir="${example.classes.dir}"/>
-      <compilejava srcdir="${test.dir}" destdir="${test.classes.dir}"/>
+  <target name="compile" depends="-prepare" description="Compiles main and test sources.">
+    <mkdir dir="${classes.dir}"/>
+    <javac srcdir="${src.dir}" destdir="${classes.dir}" includeAntRuntime="false"
+           debug="on" optimize="${build.optimize}" deprecation="on" encoding="utf-8" 
+           source="1.5" target="1.5" classpathref="compile.classpath">
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+      <compilerarg value="-Xlint:-path"/>
+    </javac>
+
+    <mkdir dir="${tclasses.dir}"/>
+    <copy todir="${tclasses.dir}"><fileset dir="src/test/resources" includes="**"/></copy>
+    <javac srcdir="${tsrc.dir}" destdir="${tclasses.dir}" includeAntRuntime="false"
+           debug="on" optimize="${build.optimize}" deprecation="on" encoding="utf-8" 
+           source="1.5" target="1.5" classpathref="test.classpath">
+      <compilerarg value="-Xlint"/>
+      <compilerarg value="-Xlint:-serial"/>
+      <compilerarg value="-Xlint:-path"/>
+    </javac>
   </target>
 
-  <!-- build the javadoc documentation -->
-  <target name="javadoc" depends="prepare" description="Generates javadoc documentation.">
-    <javadoc windowtitle="${lib.name} API" doctitle="${lib.name} API"
-             destdir="${javadoc.dir}" additionalparam="-breakiterator">
-      <packageset dir="${src.dir}"/>
-      <bottom>Copyright &#169; 2009 ${copyright.holder}. All Rights Reserved.</bottom>
-      <classpath refid="classpath"/>
-      <link href="http://java.sun.com/j2se/1.5/docs/api/"/>
-      <link href="http://code.google.com/apis/gdata/javadoc/"/>
-    </javadoc>
+  <property name="test" value=""/>
+  <target name="tests" depends="compile"
+          description="Runs unit tests. Use -Dtest=Foo to run only FooTest.">
+    <taskdef name="unit" classpathref="test.classpath"
+      classname="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask"/>
+    <mkdir dir="${deploy.dir}/test-reports"/>
+    <unit printsummary="off" haltonfailure="yes">
+      <classpath refid="test.classpath"/>
+      <sysproperty key="test_dir" value="${tclasses.dir}"/>
+      <formatter type="brief" usefile="false"/>
+      <formatter type="xml"/>
+      <batchtest todir="${deploy.dir}/test-reports">
+        <fileset dir="${tsrc.dir}" includes="**/*${test}*Test.java"/>
+      </batchtest>
+    </unit>
   </target>
 
-  <!-- a target for rebuilding everything -->
-  <target name="all" depends="clean,javadoc,test,dist"
-      description="Cleans and rebuilds everything including documentation."/>
-
-  <target name="test" depends="compile">
-      <junit haltonfailure="yes">
-          <classpath refid="classpath"/>
-          <formatter type="plain" usefile="false"/>
-          <batchtest>
-              <fileset dir="${test.dir}">
-                  <include name="**/*Test*.java"/>
-              </fileset>
-          </batchtest>
-      </junit>
+  <target name="dist" depends="compile" description="Builds jar file.">
+    <jar destfile="${deploy.dir}/${ant.project.name}.jar" basedir="${classes.dir}"/>
   </target>
 
-  <!-- builds our distribution jar file -->
-  <target name="dist" depends="compile" description="Compiles the code and builds our jar file.">
-      <jar destfile="${deploy.dir}/${lib.name}.jar" basedir="${src.classes.dir}"/>
-  </target>
-
-  <target name="example" depends="prepare,compile" description="Runs the example code">
-      <copy file="etc/honeybird.properties" todir="${example.classes.dir}"/>
-      <java classname="example.HoneybirdExample" classpathref="classpath" fork="true"/>
-  </target>
-
-  <!-- builds a release zip file -->
-  <target name="release" depends="javadoc,dist" description="Generates a zip containing the jar, docs, and license.">
-      <property name="release.name" value="${lib.name}-${version}"/>
-      <property name="release.dir" value="${deploy.dir}/${release.name}"/>
-      <mkdir dir="${release.dir}"/>
-      <copy todir="${release.dir}">
-          <fileset dir="${deploy.dir}" includes="docs/**/*"/>
-          <fileset dir="." includes="LICENSE,RELEASE_NOTES"/>
-      </copy>
-      <copy todir="${release.dir}/src">
-          <fileset dir="${src.dir}" includes="**/*"/>
-      </copy>
-      <copy file="${deploy.dir}/${lib.name}.jar" tofile="${release.dir}/${release.name}.jar"/>
-      <copy file="etc/RELEASE_README" tofile="${release.dir}/README"/>
-      <zip destfile="${deploy.dir}/${release.name}.zip" basedir="${deploy.dir}" includes="${release.name}/**"/>
+  <target name="maven-deploy" depends="dist,tests" 
+          description="Deploys our build artifacts to a Maven repository.">
+    <fail unless="maven.deploy.repo">
+      Must specify Maven repository with -Dmaven.deploy.repo=file://somepath
+    </fail>
+    <artifact:deploy file="${deploy.dir}/${ant.project.name}.jar" uniqueVersion="false">
+      <remoteRepository url="${maven.deploy.repo}"/>
+      <pom refid="pom"/>
+    </artifact:deploy>
   </target>
 </project>
