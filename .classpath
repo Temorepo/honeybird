@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="dist/example-classes" path="example/java"/>
-	<classpathentry kind="src" path="src/main/java"/>
-	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry excluding="**/.svn/" kind="src" output="dist/example-classes" path="example/java"/>
+	<classpathentry excluding="**/.svn/" kind="src" path="src/main/java"/>
+	<classpathentry excluding="**/.svn/" kind="src" path="src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-core.jar" sourcepath="/SRCDIR/gdata-1.36"/>
-	<classpathentry exported="true" kind="var" path="EXT_LIBS_DIR/gdata-analytics.jar" sourcepath="/SRCDIR/gdata-1.36/java/src"/>
-	<classpathentry kind="var" path="EXT_LIBS_DIR/guava.jar"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/google/gdata/gdata-core/1.0/gdata-core-1.0.jar" sourcepath="/SRCDIR/gdata-1.36"/>
+	<classpathentry exported="true" kind="var" path="M2_REPO/com/google/gdata/gdata-analytics/1.0/gdata-analytics-1.0.jar" sourcepath="/SRCDIR/gdata-1.36"/>
+	<classpathentry kind="var" path="M2_REPO/com/google/guava/guava/r07/guava-r07.jar"/>
 	<classpathentry kind="output" path="dist/src-classes"/>
 </classpath>
